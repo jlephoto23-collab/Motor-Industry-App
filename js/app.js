@@ -10,7 +10,6 @@ import { renderDiagnostics, initDiagnostics } from './diagnostics.js';
 
 let currentSection = 'dashboard';
 
-// ---------- Auth UI ----------
 function showLogin() {
   document.getElementById('login-screen').style.display = 'flex';
   document.getElementById('app-shell').style.display = 'none';
@@ -55,7 +54,6 @@ function handleLogout() {
   document.getElementById('login-form').reset();
 }
 
-// ---------- Search ----------
 function handleSearch() {
   const term = document.getElementById('global-search')?.value || '';
   switch (currentSection) {
@@ -66,26 +64,28 @@ function handleSearch() {
   }
 }
 
-// ---------- Navigation ----------
 function showSection(sectionId) {
   currentSection = sectionId;
 
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('.bottom-nav-item').forEach(l => l.classList.remove('active'));
 
   const section = document.getElementById(`section-${sectionId}`);
-  const link = document.querySelector(`[data-section="${sectionId}"]`);
+  const link = document.querySelector(`.nav-link[data-section="${sectionId}"]`);
+  const bottomLink = document.querySelector(`.bottom-nav-item[data-section="${sectionId}"]`);
 
   if (section) section.classList.add('active');
   if (link) link.classList.add('active');
+  if (bottomLink) bottomLink.classList.add('active');
 
   const titles = {
     dashboard: 'Dashboard',
-    vehicles: 'Vehicle Inventory',
-    customers: 'Customers & Leads',
-    services: 'Service Bookings',
-    parts: 'Parts Inventory',
-    diagnostics: 'Diagnostics & Restoration',
+    vehicles: 'Vehicles',
+    customers: 'Customers',
+    services: 'Services',
+    parts: 'Parts',
+    diagnostics: 'Diagnostics',
     settings: 'Settings'
   };
   const titleEl = document.getElementById('page-title');
@@ -112,7 +112,6 @@ function showSection(sectionId) {
   document.getElementById('sidebar')?.classList.remove('show');
 }
 
-// ---------- Initialize ----------
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('login-form')?.addEventListener('submit', handleLogin);
   document.getElementById('btn-logout')?.addEventListener('click', handleLogout);
@@ -152,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const dateEl = document.getElementById('current-date');
   if (dateEl) {
     dateEl.textContent = new Date().toLocaleDateString('en-ZA', {
-      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+      weekday: 'short', day: 'numeric', month: 'short'
     });
   }
 });
