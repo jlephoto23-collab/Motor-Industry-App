@@ -1,23 +1,28 @@
 // dashboard.js
-import { getVehicles, getCustomers, getServices, formatCurrency } from './data.js';
+import { getVehicles, getCustomers, getServices, getParts, formatCurrency } from './data.js';
 
 export function renderDashboard() {
   const vehicles = getVehicles();
   const customers = getCustomers();
   const services = getServices();
+  const parts = getParts();
 
   const inStock = vehicles.filter(v => v.status === 'In Stock').length;
   const reserved = vehicles.filter(v => v.status === 'Reserved').length;
   const activeCustomers = customers.filter(c => c.status === 'Active').length;
   const upcomingServices = services.filter(s => s.status === 'Scheduled' || s.status === 'In Progress').length;
+  const lowStockParts = parts.filter(p => p.quantity <= p.minStock).length;
 
-  // Stats
   document.getElementById('stat-vehicles').textContent = inStock;
   document.getElementById('stat-customers').textContent = activeCustomers;
   document.getElementById('stat-services').textContent = upcomingServices;
   document.getElementById('stat-reserved').textContent = reserved;
 
-  // Recent vehicles table
+  // Optional low stock indicator if element exists
+  const lowStockEl = document.getElementById('stat-lowstock');
+  if (lowStockEl) lowStockEl.textContent = lowStockParts;
+
+  // Recent vehicles
   const recentVehicles = [...vehicles].slice(0, 5);
   const tbody = document.getElementById('dashboard-vehicles-body');
   tbody.innerHTML = recentVehicles.map(v => `
