@@ -1,10 +1,19 @@
-// data.js - Sample data and localStorage helpers for Motor Industry App
+// data.js - Sample data, auth and localStorage helpers for Motor Industry App
 
 const STORAGE_KEYS = {
   vehicles: 'mia_vehicles',
   customers: 'mia_customers',
-  services: 'mia_services'
+  services: 'mia_services',
+  parts: 'mia_parts',
+  session: 'mia_session'
 };
+
+// ---------- Default Users (simple demo auth) ----------
+const USERS = [
+  { username: 'admin', password: 'admin123', name: 'Admin User', role: 'Admin' },
+  { username: 'sales', password: 'sales123', name: 'Sales Consultant', role: 'Sales' },
+  { username: 'tech', password: 'tech123', name: 'Technician', role: 'Service' }
+];
 
 // ---------- Sample Data ----------
 const sampleVehicles = [
@@ -31,6 +40,16 @@ const sampleServices = [
   { id: 4, vehicle: 'Hyundai Tucson (2023)', customer: 'Michael Chen', date: '2026-10-28', type: 'Diagnostic', status: 'Completed', technician: 'Pieter van Wyk', notes: 'Check engine light - resolved' }
 ];
 
+const sampleParts = [
+  { id: 1, partNumber: 'BRK-PAD-001', name: 'Front Brake Pads (Set)', category: 'Brakes', quantity: 24, minStock: 10, price: 1250, supplier: 'AutoParts SA', location: 'Aisle A-12' },
+  { id: 2, partNumber: 'OIL-5W30-4L', name: 'Engine Oil 5W-30 4L', category: 'Lubricants', quantity: 48, minStock: 20, price: 489, supplier: 'Shell', location: 'Aisle B-03' },
+  { id: 3, partNumber: 'FLT-AIR-TOY', name: 'Air Filter - Toyota', category: 'Filters', quantity: 15, minStock: 8, price: 320, supplier: 'Mann Filter', location: 'Aisle C-07' },
+  { id: 4, partNumber: 'SPK-NGK-001', name: 'Spark Plugs (Set of 4)', category: 'Ignition', quantity: 6, minStock: 10, price: 780, supplier: 'NGK', location: 'Aisle D-02' },
+  { id: 5, partNumber: 'BAT-12V-70', name: 'Car Battery 12V 70Ah', category: 'Electrical', quantity: 9, minStock: 5, price: 1850, supplier: 'Willard', location: 'Aisle E-01' },
+  { id: 6, partNumber: 'TYR-205-55', name: 'Tyre 205/55R16', category: 'Tyres', quantity: 12, minStock: 8, price: 1450, supplier: 'Goodyear', location: 'Yard-T1' },
+  { id: 7, partNumber: 'WPR-BLD-22', name: 'Wiper Blade 22"', category: 'Accessories', quantity: 30, minStock: 15, price: 189, supplier: 'Bosch', location: 'Aisle F-05' }
+];
+
 // ---------- Storage Helpers ----------
 function loadData(key, sample) {
   const stored = localStorage.getItem(key);
@@ -41,7 +60,6 @@ function loadData(key, sample) {
       console.warn('Failed to parse stored data for', key);
     }
   }
-  // First time: seed with sample data
   localStorage.setItem(key, JSON.stringify(sample));
   return [...sample];
 }
@@ -50,7 +68,36 @@ function saveData(key, data) {
   localStorage.setItem(key, JSON.stringify(data));
 }
 
-// Public API
+// ---------- Auth ----------
+export function login(username, password) {
+  const user = USERS.find(u => u.username === username && u.password === password);
+  if (user) {
+    const session = { username: user.username, name: user.name, role: user.role, loginTime: new Date().toISOString() };
+    localStorage.setItem(STORAGE_KEYS.session, JSON.stringify(session));
+    return { success: true, user: session };
+  }
+  return { success: false, message: 'Invalid username or password' };
+}
+
+export function logout() {
+  localStorage.removeItem(STORAGE_KEYS.session);
+}
+
+export function getSession() {
+  const stored = localStorage.getItem(STORAGE_KEYS.session);
+  if (!stored) return null;
+  try {
+    return JSON.parse(stored);
+  } catch {
+    return null;
+  }
+}
+
+export function isAuthenticated() {
+  return getSession() !== null;
+}
+
+// ---------- Public Data API ----------
 export function getVehicles() {
   return loadData(STORAGE_KEYS.vehicles, sampleVehicles);
 }
@@ -73,6 +120,14 @@ export function getServices() {
 
 export function saveServices(services) {
   saveData(STORAGE_KEYS.services, services);
+}
+
+export function getParts() {
+  return loadData(STORAGE_KEYS.parts, sampleParts);
+}
+
+export function saveParts(parts) {
+  saveData(STORAGE_KEYS.parts, parts);
 }
 
 export function generateId(items) {
