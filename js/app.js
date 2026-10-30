@@ -6,6 +6,7 @@ import { renderCustomers, openCustomerModal, saveCustomer } from './customers.js
 import { renderServices, openServiceModal, saveService } from './services.js';
 import { renderParts, openPartModal, savePart } from './parts.js';
 import { renderSettings, initSettings } from './settings.js';
+import { renderDiagnostics, initDiagnostics } from './diagnostics.js';
 
 let currentSection = 'dashboard';
 
@@ -25,7 +26,6 @@ function showApp() {
     if (userEl) userEl.textContent = `${session.name} (${session.role})`;
   }
 
-  // Apply saved dark mode
   if (localStorage.getItem('mia_dark_mode') === 'true') {
     document.body.classList.add('dark-mode');
   }
@@ -85,19 +85,18 @@ function showSection(sectionId) {
     customers: 'Customers & Leads',
     services: 'Service Bookings',
     parts: 'Parts Inventory',
+    diagnostics: 'Diagnostics & Restoration',
     settings: 'Settings'
   };
   const titleEl = document.getElementById('page-title');
   if (titleEl) titleEl.textContent = titles[sectionId] || 'Dashboard';
 
-  // Clear search when switching sections
   const searchInput = document.getElementById('global-search');
   if (searchInput) searchInput.value = '';
 
-  // Show/hide search bar (hide on dashboard & settings)
   const searchContainer = document.getElementById('search-container');
   if (searchContainer) {
-    searchContainer.style.display = (sectionId === 'dashboard' || sectionId === 'settings') ? 'none' : 'flex';
+    searchContainer.style.display = (['dashboard', 'settings', 'diagnostics'].includes(sectionId)) ? 'none' : 'flex';
   }
 
   switch (sectionId) {
@@ -106,6 +105,7 @@ function showSection(sectionId) {
     case 'customers': renderCustomers(); break;
     case 'services': renderServices(); break;
     case 'parts': renderParts(); break;
+    case 'diagnostics': renderDiagnostics(); break;
     case 'settings': renderSettings(); break;
   }
 
@@ -114,11 +114,9 @@ function showSection(sectionId) {
 
 // ---------- Initialize ----------
 document.addEventListener('DOMContentLoaded', () => {
-  // Auth
   document.getElementById('login-form')?.addEventListener('submit', handleLogin);
   document.getElementById('btn-logout')?.addEventListener('click', handleLogout);
 
-  // Nav clicks
   document.querySelectorAll('[data-section]').forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
@@ -126,37 +124,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Mobile menu toggle
   document.getElementById('menu-toggle')?.addEventListener('click', () => {
     document.getElementById('sidebar').classList.toggle('show');
   });
 
-  // Search
   document.getElementById('global-search')?.addEventListener('input', handleSearch);
 
-  // Form submissions
   document.getElementById('vehicle-form')?.addEventListener('submit', saveVehicle);
   document.getElementById('customer-form')?.addEventListener('submit', saveCustomer);
   document.getElementById('service-form')?.addEventListener('submit', saveService);
   document.getElementById('part-form')?.addEventListener('submit', savePart);
 
-  // Add buttons
   document.getElementById('btn-add-vehicle')?.addEventListener('click', () => openVehicleModal());
   document.getElementById('btn-add-customer')?.addEventListener('click', () => openCustomerModal());
   document.getElementById('btn-add-service')?.addEventListener('click', () => openServiceModal());
   document.getElementById('btn-add-part')?.addEventListener('click', () => openPartModal());
 
-  // Settings listeners
   initSettings();
+  initDiagnostics();
 
-  // Check auth on load
   if (isAuthenticated()) {
     showApp();
   } else {
     showLogin();
   }
 
-  // Set current date
   const dateEl = document.getElementById('current-date');
   if (dateEl) {
     dateEl.textContent = new Date().toLocaleDateString('en-ZA', {
