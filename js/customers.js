@@ -3,12 +3,22 @@ import { getCustomers, saveCustomers, generateId } from './data.js';
 
 let editingId = null;
 
-export function renderCustomers() {
-  const customers = getCustomers();
+export function renderCustomers(searchTerm = '') {
+  let customers = getCustomers();
+  const term = searchTerm.toLowerCase().trim();
+
+  if (term) {
+    customers = customers.filter(c =>
+      `${c.name} ${c.email} ${c.phone} ${c.type} ${c.status} ${c.notes || ''}`
+        .toLowerCase()
+        .includes(term)
+    );
+  }
+
   const tbody = document.getElementById('customers-table-body');
 
   if (customers.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="7" class="empty-state"><i class="bi bi-people"></i><p>No customers yet.</p></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7" class="empty-state"><i class="bi bi-people"></i><p>${term ? 'No customers match your search.' : 'No customers yet.'}</p></td></tr>`;
     return;
   }
 
@@ -85,14 +95,16 @@ export function saveCustomer(e) {
 
   saveCustomers(customers);
   bootstrap.Modal.getInstance(document.getElementById('customerModal')).hide();
-  renderCustomers();
+  const searchInput = document.getElementById('global-search');
+  renderCustomers(searchInput ? searchInput.value : '');
 }
 
 export function deleteCustomer(id) {
   if (!confirm('Are you sure you want to delete this customer?')) return;
   const customers = getCustomers().filter(c => c.id !== id);
   saveCustomers(customers);
-  renderCustomers();
+  const searchInput = document.getElementById('global-search');
+  renderCustomers(searchInput ? searchInput.value : '');
 }
 
 window.editCustomer = openCustomerModal;
