@@ -3,12 +3,22 @@ import { getVehicles, saveVehicles, generateId, formatCurrency } from './data.js
 
 let editingId = null;
 
-export function renderVehicles() {
-  const vehicles = getVehicles();
+export function renderVehicles(searchTerm = '') {
+  let vehicles = getVehicles();
+  const term = searchTerm.toLowerCase().trim();
+
+  if (term) {
+    vehicles = vehicles.filter(v =>
+      `${v.make} ${v.model} ${v.year} ${v.color || ''} ${v.status} ${v.vin || ''} ${v.fuel || ''}`
+        .toLowerCase()
+        .includes(term)
+    );
+  }
+
   const tbody = document.getElementById('vehicles-table-body');
 
   if (vehicles.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="8" class="empty-state"><i class="bi bi-car-front"></i><p>No vehicles yet. Add your first vehicle!</p></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="8" class="empty-state"><i class="bi bi-car-front"></i><p>${term ? 'No vehicles match your search.' : 'No vehicles yet. Add your first vehicle!'}</p></td></tr>`;
     return;
   }
 
@@ -92,20 +102,17 @@ export function saveVehicle(e) {
 
   saveVehicles(vehicles);
   bootstrap.Modal.getInstance(document.getElementById('vehicleModal')).hide();
-  renderVehicles();
-  // Also refresh dashboard if visible
-  if (document.getElementById('section-dashboard').classList.contains('active')) {
-    import('./dashboard.js').then(m => m.renderDashboard());
-  }
+  const searchInput = document.getElementById('global-search');
+  renderVehicles(searchInput ? searchInput.value : '');
 }
 
 export function deleteVehicle(id) {
   if (!confirm('Are you sure you want to delete this vehicle?')) return;
   const vehicles = getVehicles().filter(v => v.id !== id);
   saveVehicles(vehicles);
-  renderVehicles();
+  const searchInput = document.getElementById('global-search');
+  renderVehicles(searchInput ? searchInput.value : '');
 }
 
-// Expose to window for onclick handlers
 window.editVehicle = openVehicleModal;
 window.deleteVehicle = deleteVehicle;
