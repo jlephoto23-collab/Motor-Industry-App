@@ -2,43 +2,62 @@
 
 A modern **Dealer Management System (DMS)** prototype for the motor / automotive industry.
 
-Built as a fully client-side web application (HTML, CSS, JavaScript) with localStorage for data persistence. No backend or installation required — just open `index.html` in a browser.
+Built as a fully client-side web application (HTML, CSS, JavaScript) with localStorage for data persistence.
 
 ## Features
 
-- **Dashboard** – Key metrics: vehicles in stock, active customers, upcoming services, recent activity
-- **Vehicle Inventory** – Add, view, edit and manage vehicle stock (make, model, year, price, status, mileage, etc.)
+- **Login & Authentication** – Secure login screen with role-based demo users
+- **Dashboard** – Key metrics: vehicles in stock, active customers, upcoming services
+- **Vehicle Inventory** – Full CRUD for vehicle stock
 - **Customers / CRM** – Customer database and lead management
 - **Service Bookings** – Schedule services, job cards, technician assignment
+- **Parts Inventory** – Stock management with low-stock warnings
 - **Responsive Design** – Works on desktop and mobile
-- **Sample Data** – Pre-loaded with realistic demo data so you can explore immediately
+- **Sample Data** – Pre-loaded with realistic South African demo data
+
+## Demo Login Credentials
+
+| Username | Password  | Role     |
+|----------|-----------|----------|
+| admin    | admin123  | Admin    |
+| sales    | sales123  | Sales    |
+| tech     | tech123   | Service  |
 
 ## How to Run
 
-1. Clone or download this repository
-2. Open `index.html` in any modern browser
-3. All data is stored in the browser’s localStorage
+Because the app uses **ES6 modules**, you should serve it with a local web server (opening `index.html` directly via `file://` may cause import errors in some browsers).
 
+### Option 1 – VS Code Live Server (easiest)
+1. Install the **Live Server** extension in VS Code
+2. Right-click `index.html` → **Open with Live Server**
+
+### Option 2 – Python
 ```bash
-git clone https://github.com/jlephoto23-collab/Motor-Industry-App.git
-cd Motor-Industry-App
-# then simply open index.html
+# Python 3
+python -m http.server 8000
+# then open http://localhost:8000
+```
+
+### Option 3 – Node.js
+```bash
+npx serve .
 ```
 
 ## Project Structure
 
 ```
 Motor-Industry-App/
-├── index.html              # Main application (SPA)
+├── index.html              # Main SPA + Login screen
 ├── css/
-│   └── styles.css          # Custom styles + theme
+│   └── styles.css          # Custom styles + login theme
 ├── js/
-│   ├── app.js              # App initialization & navigation
-│   ├── data.js             # Sample data + localStorage helpers
+│   ├── app.js              # App init, auth flow & navigation
+│   ├── data.js             # Sample data, auth helpers, localStorage
 │   ├── dashboard.js        # Dashboard logic
 │   ├── vehicles.js         # Vehicle inventory module
 │   ├── customers.js        # Customers / CRM module
-│   └── services.js         # Service bookings module
+│   ├── services.js         # Service bookings module
+│   └── parts.js            # Parts inventory module
 └── README.md
 ```
 
@@ -47,17 +66,16 @@ Motor-Industry-App/
 - HTML5
 - CSS3 (custom automotive theme)
 - Vanilla JavaScript (ES6 modules)
-- Bootstrap 5 (CDN) for layout & components
-- localStorage for persistence
+- Bootstrap 5 (CDN)
+- localStorage for persistence & session
 
 ## Future Enhancements
 
-- Backend API (Node.js / Python)
-- User authentication
-- Parts inventory module
+- Real backend API (Node.js / Python / Firebase)
+- Proper password hashing & multi-user management
 - Invoicing & payments
 - Reports & analytics charts
-- Mobile app (React Native / Flutter)
+- Mobile app version
 
 ---
 
