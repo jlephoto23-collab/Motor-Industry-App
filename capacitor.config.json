@@ -1,0 +1,18 @@
+{
+  "appId": "com.motorindustry.app",
+  "appName": "Motor Industry App",
+  "webDir": ".",
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "backgroundColor": "#1a1a2e",
+      "showSpinner": false
+    }
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}
