@@ -3,16 +3,25 @@ import { getServices, saveServices, generateId, formatDate } from './data.js';
 
 let editingId = null;
 
-export function renderServices() {
-  const services = getServices();
+export function renderServices(searchTerm = '') {
+  let services = getServices();
+  const term = searchTerm.toLowerCase().trim();
+
+  if (term) {
+    services = services.filter(s =>
+      `${s.vehicle} ${s.customer} ${s.date} ${s.type} ${s.status} ${s.technician || ''} ${s.notes || ''}`
+        .toLowerCase()
+        .includes(term)
+    );
+  }
+
   const tbody = document.getElementById('services-table-body');
 
   if (services.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="7" class="empty-state"><i class="bi bi-wrench"></i><p>No service bookings yet.</p></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7" class="empty-state"><i class="bi bi-wrench"></i><p>${term ? 'No services match your search.' : 'No service bookings yet.'}</p></td></tr>`;
     return;
   }
 
-  // Sort by date descending
   const sorted = [...services].sort((a, b) => new Date(b.date) - new Date(a.date));
 
   tbody.innerHTML = sorted.map(s => `
@@ -65,7 +74,6 @@ export function openServiceModal(id = null) {
       document.getElementById('s-notes').value = service.notes || '';
     }
   } else {
-    // Default date to today
     document.getElementById('s-date').value = new Date().toISOString().split('T')[0];
   }
 
@@ -98,14 +106,16 @@ export function saveService(e) {
 
   saveServices(services);
   bootstrap.Modal.getInstance(document.getElementById('serviceModal')).hide();
-  renderServices();
+  const searchInput = document.getElementById('global-search');
+  renderServices(searchInput ? searchInput.value : '');
 }
 
 export function deleteService(id) {
   if (!confirm('Are you sure you want to delete this service booking?')) return;
   const services = getServices().filter(s => s.id !== id);
   saveServices(services);
-  renderServices();
+  const searchInput = document.getElementById('global-search');
+  renderServices(searchInput ? searchInput.value : '');
 }
 
 window.editService = openServiceModal;
