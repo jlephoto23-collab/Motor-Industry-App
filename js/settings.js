@@ -5,6 +5,24 @@ export function renderSettings() {
   const darkMode = localStorage.getItem('mia_dark_mode') === 'true';
   const toggle = document.getElementById('setting-dark-mode');
   if (toggle) toggle.checked = darkMode;
+
+  // Update install button visibility
+  updateInstallButton();
+}
+
+function updateInstallButton() {
+  const installCard = document.getElementById('install-app-card');
+  const alreadyInstalled = window.matchMedia('(display-mode: standalone)').matches
+    || window.navigator.standalone === true;
+
+  if (installCard) {
+    if (alreadyInstalled) {
+      installCard.innerHTML = `
+        <h6><i class="bi bi-phone"></i> App Installed</h6>
+        <p class="text-muted small mb-0">This app is already installed on your device.</p>
+      `;
+    }
+  }
 }
 
 export function initSettings() {
@@ -30,5 +48,19 @@ export function initSettings() {
   document.getElementById('btn-settings-logout')?.addEventListener('click', () => {
     logout();
     location.reload();
+  });
+
+  // Install App button in Settings
+  document.getElementById('btn-install-app')?.addEventListener('click', () => {
+    if (window.deferredPrompt) {
+      window.deferredPrompt.prompt();
+      window.deferredPrompt.userChoice.then(() => {
+        window.deferredPrompt = null;
+        updateInstallButton();
+      });
+    } else {
+      // Fallback instructions
+      alert('To install this app:\n\nAndroid (Chrome):\n1. Tap the menu (⋮)\n2. Tap "Install app" or "Add to Home screen"\n\niPhone (Safari):\n1. Tap the Share button\n2. Tap "Add to Home Screen"');
+    }
   });
 }
