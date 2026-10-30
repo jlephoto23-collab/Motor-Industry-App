@@ -79,6 +79,9 @@
         <a href="#" class="nav-link" data-section="parts">
           <i class="bi bi-box-seam"></i> Parts
         </a>
+        <a href="#" class="nav-link" data-section="settings">
+          <i class="bi bi-gear"></i> Settings
+        </a>
       </nav>
       <div class="position-absolute bottom-0 start-0 end-0 p-3">
         <div class="text-white-50 small mb-2" id="current-user">User</div>
@@ -331,6 +334,46 @@
                 </thead>
                 <tbody id="parts-table-body"></tbody>
               </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== SETTINGS ==================== -->
+      <section id="section-settings" class="section">
+        <div class="row g-3">
+          <div class="col-lg-6">
+            <div class="settings-card">
+              <h6><i class="bi bi-palette"></i> Appearance</h6>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="setting-dark-mode">
+                <label class="form-check-label" for="setting-dark-mode">Dark Mode</label>
+              </div>
+            </div>
+
+            <div class="settings-card">
+              <h6><i class="bi bi-info-circle"></i> About</h6>
+              <p class="mb-1"><strong>Motor Industry App</strong></p>
+              <p class="text-muted small mb-1">Version 1.1.0</p>
+              <p class="text-muted small mb-0">Dealer Management System for the motor industry.<br>
+              Built with HTML, CSS, JavaScript + Capacitor & PWA support.</p>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="settings-card">
+              <h6><i class="bi bi-shield-exclamation"></i> Data Management</h6>
+              <p class="text-muted small">Clear all vehicles, customers, services and parts data. This cannot be undone.</p>
+              <button class="btn btn-outline-danger btn-sm" id="btn-clear-data">
+                <i class="bi bi-trash"></i> Clear All Data
+              </button>
+            </div>
+
+            <div class="settings-card">
+              <h6><i class="bi bi-box-arrow-right"></i> Account</h6>
+              <button class="btn btn-outline-secondary btn-sm" id="btn-settings-logout">
+                <i class="bi bi-box-arrow-left"></i> Logout
+              </button>
             </div>
           </div>
         </div>
@@ -591,24 +634,28 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title"><i class="bi bi-android2"></i> Build Android APK</h5>
+          <h5 class="modal-title"><i class="bi bi-android2"></i> Get the App on Your Phone</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <p>This is a web app prepared for <strong>Capacitor</strong>. To generate a real APK:</p>
+          <h6>Option 1 – Easiest (Recommended)</h6>
+          <p class="small">Install as a Progressive Web App (no APK needed):</p>
           <ol class="small">
-            <li>Install Node.js and Android Studio</li>
-            <li>Run the commands shown below</li>
-            <li>Or use <a href="https://www.pwabuilder.com" target="_blank">PWABuilder.com</a> after hosting the site</li>
+            <li>Open this app in <strong>Chrome</strong> on your Android phone</li>
+            <li>Tap the menu (⋮) → <strong>Install app</strong> or <strong>Add to Home screen</strong></li>
+            <li>Or tap the <strong>Install App</strong> button when it appears</li>
           </ol>
-          <p class="mb-0"><strong>Quick commands:</strong></p>
-          <pre class="bg-light p-2 rounded small mb-0">npm install
+
+          <hr>
+
+          <h6>Option 2 – Build a real APK with Capacitor</h6>
+          <pre class="bg-light p-2 rounded small">npm install
 npx cap add android
 npx cap sync
 npx cap open android</pre>
+          <p class="small mb-0">Then in Android Studio: <strong>Build → Build APK(s)</strong></p>
         </div>
         <div class="modal-footer">
-          <a href="https://github.com/jlephoto23-collab/Motor-Industry-App#build-android-apk-with-capacitor" class="btn btn-primary" target="_blank">View Full Instructions</a>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
