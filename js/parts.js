@@ -3,12 +3,22 @@ import { getParts, saveParts, generateId, formatCurrency } from './data.js';
 
 let editingId = null;
 
-export function renderParts() {
-  const parts = getParts();
+export function renderParts(searchTerm = '') {
+  let parts = getParts();
+  const term = searchTerm.toLowerCase().trim();
+
+  if (term) {
+    parts = parts.filter(p =>
+      `${p.partNumber} ${p.name} ${p.category} ${p.supplier || ''} ${p.location || ''}`
+        .toLowerCase()
+        .includes(term)
+    );
+  }
+
   const tbody = document.getElementById('parts-table-body');
 
   if (parts.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="9" class="empty-state"><i class="bi bi-box-seam"></i><p>No parts in inventory yet.</p></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="9" class="empty-state"><i class="bi bi-box-seam"></i><p>${term ? 'No parts match your search.' : 'No parts in inventory yet.'}</p></td></tr>`;
     return;
   }
 
@@ -91,14 +101,16 @@ export function savePart(e) {
 
   saveParts(parts);
   bootstrap.Modal.getInstance(document.getElementById('partModal')).hide();
-  renderParts();
+  const searchInput = document.getElementById('global-search');
+  renderParts(searchInput ? searchInput.value : '');
 }
 
 export function deletePart(id) {
   if (!confirm('Are you sure you want to delete this part?')) return;
   const parts = getParts().filter(p => p.id !== id);
   saveParts(parts);
-  renderParts();
+  const searchInput = document.getElementById('global-search');
+  renderParts(searchInput ? searchInput.value : '');
 }
 
 window.editPart = openPartModal;
