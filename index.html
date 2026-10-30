@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Motor Industry App | Dealer Management System</title>
+  <title>Motor Industry App</title>
 
   <!-- PWA Meta Tags -->
   <meta name="theme-color" content="#c41e3a">
@@ -15,16 +15,13 @@
   <link rel="apple-touch-icon" href="icons/icon.svg">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 
-  <!-- Bootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-  <!-- Custom CSS -->
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
-  <!-- ==================== LOGIN SCREEN ==================== -->
+  <!-- LOGIN SCREEN -->
   <div id="login-screen">
     <div class="login-card">
       <div class="login-header">
@@ -55,716 +52,209 @@
     </div>
   </div>
 
-  <!-- ==================== APP SHELL ==================== -->
+  <!-- APP SHELL -->
   <div id="app-shell">
-    <!-- Sidebar -->
+    <!-- Desktop Sidebar -->
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-brand">
         <i class="bi bi-speedometer2"></i>
         <span>Motor Industry</span>
       </div>
       <nav class="mt-3">
-        <a href="#" class="nav-link active" data-section="dashboard">
-          <i class="bi bi-grid-1x2"></i> Dashboard
-        </a>
-        <a href="#" class="nav-link" data-section="vehicles">
-          <i class="bi bi-car-front"></i> Vehicles
-        </a>
-        <a href="#" class="nav-link" data-section="customers">
-          <i class="bi bi-people"></i> Customers
-        </a>
-        <a href="#" class="nav-link" data-section="services">
-          <i class="bi bi-wrench-adjustable"></i> Services
-        </a>
-        <a href="#" class="nav-link" data-section="parts">
-          <i class="bi bi-box-seam"></i> Parts
-        </a>
-        <a href="#" class="nav-link" data-section="diagnostics">
-          <i class="bi bi-clipboard2-pulse"></i> Diagnostics
-        </a>
-        <a href="#" class="nav-link" data-section="settings">
-          <i class="bi bi-gear"></i> Settings
-        </a>
+        <a href="#" class="nav-link active" data-section="dashboard"><i class="bi bi-grid-1x2"></i> Dashboard</a>
+        <a href="#" class="nav-link" data-section="vehicles"><i class="bi bi-car-front"></i> Vehicles</a>
+        <a href="#" class="nav-link" data-section="customers"><i class="bi bi-people"></i> Customers</a>
+        <a href="#" class="nav-link" data-section="services"><i class="bi bi-wrench-adjustable"></i> Services</a>
+        <a href="#" class="nav-link" data-section="parts"><i class="bi bi-box-seam"></i> Parts</a>
+        <a href="#" class="nav-link" data-section="diagnostics"><i class="bi bi-clipboard2-pulse"></i> Diagnostics</a>
+        <a href="#" class="nav-link" data-section="settings"><i class="bi bi-gear"></i> Settings</a>
       </nav>
       <div class="position-absolute bottom-0 start-0 end-0 p-3">
         <div class="text-white-50 small mb-2" id="current-user">User</div>
-        <button class="btn btn-outline-light btn-sm w-100 mb-2" id="btn-download-apk" title="Build APK with Capacitor">
-          <i class="bi bi-android2"></i> Download APK
-        </button>
-        <button class="btn btn-outline-light btn-sm w-100" id="btn-logout">
-          <i class="bi bi-box-arrow-left"></i> Logout
-        </button>
+        <button class="btn btn-outline-light btn-sm w-100 mb-2" id="btn-download-apk"><i class="bi bi-android2"></i> Download APK</button>
+        <button class="btn btn-outline-light btn-sm w-100" id="btn-logout"><i class="bi bi-box-arrow-left"></i> Logout</button>
       </div>
     </aside>
 
     <!-- Main Content -->
     <main class="main-content">
-      <!-- Top bar -->
       <div class="topbar">
         <div class="d-flex align-items-center gap-3 flex-grow-1">
-          <button class="btn btn-outline-secondary d-lg-none" id="menu-toggle">
-            <i class="bi bi-list"></i>
-          </button>
+          <button class="btn btn-outline-secondary d-lg-none btn-sm" id="menu-toggle"><i class="bi bi-list"></i></button>
           <h5 class="mb-0" id="page-title">Dashboard</h5>
-
-          <div id="search-container" class="ms-3" style="display:none; max-width: 320px; width: 100%;">
+          <div id="search-container" class="ms-2" style="display:none; max-width: 260px; width: 100%;">
             <div class="input-group input-group-sm">
-              <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
-              <input type="search" class="form-control" id="global-search" placeholder="Search..." autocomplete="off">
+              <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+              <input type="search" class="form-control border-start-0" id="global-search" placeholder="Search..." autocomplete="off">
             </div>
           </div>
         </div>
-        <div class="d-flex align-items-center gap-3">
-          <button class="btn btn-sm btn-outline-primary d-none" id="btn-install-pwa" title="Install App">
-            <i class="bi bi-download"></i> Install App
-          </button>
-          <div class="text-muted small d-none d-md-block">
-            <i class="bi bi-calendar3"></i>
-            <span id="current-date"></span>
-          </div>
+        <div class="d-flex align-items-center gap-2">
+          <button class="btn btn-sm btn-outline-primary d-none" id="btn-install-pwa"><i class="bi bi-download"></i></button>
+          <div class="text-muted small d-none d-md-block" id="current-date"></div>
         </div>
       </div>
 
-      <!-- ==================== DASHBOARD ==================== -->
+      <!-- DASHBOARD -->
       <section id="section-dashboard" class="section active">
-        <div class="row g-3 mb-4">
-          <div class="col-sm-6 col-xl-3">
-            <div class="stat-card">
-              <div class="d-flex justify-content-between">
-                <div>
-                  <div class="stat-label">Vehicles In Stock</div>
-                  <div class="stat-value" id="stat-vehicles">0</div>
-                </div>
-                <div class="icon bg-primary"><i class="bi bi-car-front"></i></div>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 col-xl-3">
-            <div class="stat-card">
-              <div class="d-flex justify-content-between">
-                <div>
-                  <div class="stat-label">Active Customers</div>
-                  <div class="stat-value" id="stat-customers">0</div>
-                </div>
-                <div class="icon bg-success"><i class="bi bi-people"></i></div>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 col-xl-3">
-            <div class="stat-card">
-              <div class="d-flex justify-content-between">
-                <div>
-                  <div class="stat-label">Upcoming Services</div>
-                  <div class="stat-value" id="stat-services">0</div>
-                </div>
-                <div class="icon bg-info"><i class="bi bi-wrench"></i></div>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 col-xl-3">
-            <div class="stat-card">
-              <div class="d-flex justify-content-between">
-                <div>
-                  <div class="stat-label">Reserved Vehicles</div>
-                  <div class="stat-value" id="stat-reserved">0</div>
-                </div>
-                <div class="icon bg-warning"><i class="bi bi-bookmark-check"></i></div>
-              </div>
-            </div>
-          </div>
+        <div class="row g-3 mb-3">
+          <div class="col-6 col-xl-3"><div class="stat-card"><div class="d-flex justify-content-between"><div><div class="stat-label">Vehicles</div><div class="stat-value" id="stat-vehicles">0</div></div><div class="icon bg-primary"><i class="bi bi-car-front"></i></div></div></div></div>
+          <div class="col-6 col-xl-3"><div class="stat-card"><div class="d-flex justify-content-between"><div><div class="stat-label">Customers</div><div class="stat-value" id="stat-customers">0</div></div><div class="icon bg-success"><i class="bi bi-people"></i></div></div></div></div>
+          <div class="col-6 col-xl-3"><div class="stat-card"><div class="d-flex justify-content-between"><div><div class="stat-label">Services</div><div class="stat-value" id="stat-services">0</div></div><div class="icon bg-info"><i class="bi bi-wrench"></i></div></div></div></div>
+          <div class="col-6 col-xl-3"><div class="stat-card"><div class="d-flex justify-content-between"><div><div class="stat-label">Reserved</div><div class="stat-value" id="stat-reserved">0</div></div><div class="icon bg-warning"><i class="bi bi-bookmark-check"></i></div></div></div></div>
         </div>
-
         <div class="row g-3">
-          <div class="col-lg-7">
-            <div class="content-card">
-              <div class="card-header">Recent Vehicles</div>
-              <div class="card-body p-0">
-                <div class="table-responsive">
-                  <table class="table table-hover align-middle mb-0">
-                    <thead>
-                      <tr>
-                        <th>Vehicle</th>
-                        <th>Year</th>
-                        <th>Price</th>
-                        <th>Status</th>
-                      </tr>
-                    </thead>
-                    <tbody id="dashboard-vehicles-body"></tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-5">
-            <div class="content-card">
-              <div class="card-header">Upcoming Services</div>
-              <div class="card-body p-0">
-                <div class="table-responsive">
-                  <table class="table table-hover align-middle mb-0">
-                    <thead>
-                      <tr>
-                        <th>Vehicle</th>
-                        <th>Customer</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                      </tr>
-                    </thead>
-                    <tbody id="dashboard-services-body"></tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
+          <div class="col-lg-7"><div class="content-card"><div class="card-header">Recent Vehicles</div><div class="card-body p-0"><div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead><tr><th>Vehicle</th><th>Year</th><th>Price</th><th>Status</th></tr></thead><tbody id="dashboard-vehicles-body"></tbody></table></div></div></div></div>
+          <div class="col-lg-5"><div class="content-card"><div class="card-header">Upcoming Services</div><div class="card-body p-0"><div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead><tr><th>Vehicle</th><th>Customer</th><th>Date</th><th>Status</th></tr></thead><tbody id="dashboard-services-body"></tbody></table></div></div></div></div>
         </div>
       </section>
 
-      <!-- ==================== VEHICLES ==================== -->
+      <!-- VEHICLES -->
       <section id="section-vehicles" class="section">
         <div class="content-card">
-          <div class="card-header">
-            <span>Vehicle Inventory</span>
-            <button class="btn btn-primary btn-sm" id="btn-add-vehicle">
-              <i class="bi bi-plus-lg"></i> Add Vehicle
-            </button>
-          </div>
-          <div class="card-body p-0">
-            <div class="table-responsive">
-              <table class="table table-hover align-middle mb-0">
-                <thead>
-                  <tr>
-                    <th>Vehicle</th>
-                    <th>Year</th>
-                    <th>Color</th>
-                    <th>Mileage</th>
-                    <th>Price</th>
-                    <th>Status</th>
-                    <th>VIN</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody id="vehicles-table-body"></tbody>
-              </table>
-            </div>
-          </div>
+          <div class="card-header"><span>Vehicle Inventory</span><button class="btn btn-primary btn-sm" id="btn-add-vehicle"><i class="bi bi-plus-lg"></i> Add</button></div>
+          <div class="card-body p-0"><div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead><tr><th>Vehicle</th><th>Year</th><th>Color</th><th>Mileage</th><th>Price</th><th>Status</th><th>VIN</th><th></th></tr></thead><tbody id="vehicles-table-body"></tbody></table></div></div>
         </div>
       </section>
 
-      <!-- ==================== CUSTOMERS ==================== -->
+      <!-- CUSTOMERS -->
       <section id="section-customers" class="section">
         <div class="content-card">
-          <div class="card-header">
-            <span>Customers & Leads</span>
-            <button class="btn btn-primary btn-sm" id="btn-add-customer">
-              <i class="bi bi-plus-lg"></i> Add Customer
-            </button>
-          </div>
-          <div class="card-body p-0">
-            <div class="table-responsive">
-              <table class="table table-hover align-middle mb-0">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Type</th>
-                    <th>Status</th>
-                    <th>Notes</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody id="customers-table-body"></tbody>
-              </table>
-            </div>
-          </div>
+          <div class="card-header"><span>Customers & Leads</span><button class="btn btn-primary btn-sm" id="btn-add-customer"><i class="bi bi-plus-lg"></i> Add</button></div>
+          <div class="card-body p-0"><div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Type</th><th>Status</th><th>Notes</th><th></th></tr></thead><tbody id="customers-table-body"></tbody></table></div></div>
         </div>
       </section>
 
-      <!-- ==================== SERVICES ==================== -->
+      <!-- SERVICES -->
       <section id="section-services" class="section">
         <div class="content-card">
-          <div class="card-header">
-            <span>Service Bookings</span>
-            <button class="btn btn-primary btn-sm" id="btn-add-service">
-              <i class="bi bi-plus-lg"></i> New Booking
-            </button>
-          </div>
-          <div class="card-body p-0">
-            <div class="table-responsive">
-              <table class="table table-hover align-middle mb-0">
-                <thead>
-                  <tr>
-                    <th>Vehicle</th>
-                    <th>Customer</th>
-                    <th>Date</th>
-                    <th>Type</th>
-                    <th>Status</th>
-                    <th>Technician</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody id="services-table-body"></tbody>
-              </table>
-            </div>
-          </div>
+          <div class="card-header"><span>Service Bookings</span><button class="btn btn-primary btn-sm" id="btn-add-service"><i class="bi bi-plus-lg"></i> New</button></div>
+          <div class="card-body p-0"><div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead><tr><th>Vehicle</th><th>Customer</th><th>Date</th><th>Type</th><th>Status</th><th>Tech</th><th></th></tr></thead><tbody id="services-table-body"></tbody></table></div></div>
         </div>
       </section>
 
-      <!-- ==================== PARTS ==================== -->
+      <!-- PARTS -->
       <section id="section-parts" class="section">
         <div class="content-card">
-          <div class="card-header">
-            <span>Parts Inventory</span>
-            <button class="btn btn-primary btn-sm" id="btn-add-part">
-              <i class="bi bi-plus-lg"></i> Add Part
-            </button>
-          </div>
-          <div class="card-body p-0">
-            <div class="table-responsive">
-              <table class="table table-hover align-middle mb-0">
-                <thead>
-                  <tr>
-                    <th>Part No.</th>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th>Qty</th>
-                    <th>Min Stock</th>
-                    <th>Price</th>
-                    <th>Supplier</th>
-                    <th>Location</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody id="parts-table-body"></tbody>
-              </table>
-            </div>
-          </div>
+          <div class="card-header"><span>Parts Inventory</span><button class="btn btn-primary btn-sm" id="btn-add-part"><i class="bi bi-plus-lg"></i> Add</button></div>
+          <div class="card-body p-0"><div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead><tr><th>Part No.</th><th>Name</th><th>Category</th><th>Qty</th><th>Min</th><th>Price</th><th>Supplier</th><th>Loc</th><th></th></tr></thead><tbody id="parts-table-body"></tbody></table></div></div>
         </div>
       </section>
 
-      <!-- ==================== DIAGNOSTICS ==================== -->
+      <!-- DIAGNOSTICS -->
       <section id="section-diagnostics" class="section">
-        <div class="content-card mb-4">
-          <div class="card-header">
-            <span><i class="bi bi-clipboard2-pulse"></i> Car Diagnostics & Restoration Advisor</span>
-          </div>
+        <div class="content-card mb-3">
+          <div class="card-header"><span><i class="bi bi-clipboard2-pulse"></i> Diagnostics & Restoration</span></div>
           <div class="card-body">
-            <p class="text-muted small">Enter any car details (old or new). The system will recommend what should be done to bring it back to good / like-new condition.</p>
-
+            <p class="text-muted small mb-3">Enter any vehicle details to get advice on what needs to be done to bring it back to good condition.</p>
             <div class="row g-3">
-              <div class="col-md-4">
-                <label class="form-label">Make *</label>
-                <input type="text" class="form-control" id="diag-make" placeholder="e.g. Toyota, BMW, Ford">
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">Model *</label>
-                <input type="text" class="form-control" id="diag-model" placeholder="e.g. Corolla, 3 Series, Ranger">
-              </div>
-              <div class="col-md-2">
-                <label class="form-label">Year *</label>
-                <input type="number" class="form-control" id="diag-year" min="1960" max="2030" placeholder="2015">
-              </div>
-              <div class="col-md-2">
-                <label class="form-label">Mileage (km)</label>
-                <input type="number" class="form-control" id="diag-mileage" min="0" placeholder="85000">
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">Overall Condition</label>
-                <select class="form-select" id="diag-condition">
-                  <option value="Good">Good</option>
-                  <option value="Fair" selected>Fair</option>
-                  <option value="Poor">Poor</option>
-                </select>
-              </div>
+              <div class="col-6 col-md-3"><label class="form-label">Make *</label><input type="text" class="form-control" id="diag-make" placeholder="BMW"></div>
+              <div class="col-6 col-md-3"><label class="form-label">Model *</label><input type="text" class="form-control" id="diag-model" placeholder="325is"></div>
+              <div class="col-6 col-md-2"><label class="form-label">Year *</label><input type="number" class="form-control" id="diag-year" min="1960" max="2030" placeholder="1992"></div>
+              <div class="col-6 col-md-2"><label class="form-label">Mileage</label><input type="number" class="form-control" id="diag-mileage" min="0" placeholder="220000"></div>
+              <div class="col-12 col-md-2"><label class="form-label">Condition</label><select class="form-select" id="diag-condition"><option value="Good">Good</option><option value="Fair" selected>Fair</option><option value="Poor">Poor</option></select></div>
             </div>
-
-            <div class="mt-4" id="diag-symptoms">
-              <label class="form-label fw-semibold">Current Issues / Symptoms (select all that apply)</label>
+            <div class="mt-3" id="diag-symptoms">
+              <label class="form-label fw-semibold">Symptoms</label>
               <div class="row g-2">
                 <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="engine-noise" id="sym-1"><label class="form-check-label" for="sym-1">Engine noise</label></div></div>
-                <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="smoke" id="sym-2"><label class="form-check-label" for="sym-2">Exhaust smoke</label></div></div>
+                <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="smoke" id="sym-2"><label class="form-check-label" for="sym-2">Smoke</label></div></div>
                 <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="overheating" id="sym-3"><label class="form-check-label" for="sym-3">Overheating</label></div></div>
                 <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="vibration" id="sym-4"><label class="form-check-label" for="sym-4">Vibration</label></div></div>
-                <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="brake-issues" id="sym-5"><label class="form-check-label" for="sym-5">Brake issues</label></div></div>
-                <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="electrical" id="sym-6"><label class="form-check-label" for="sym-6">Electrical problems</label></div></div>
-                <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="ac-not-cold" id="sym-7"><label class="form-check-label" for="sym-7">A/C not cold</label></div></div>
-                <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="rust" id="sym-8"><label class="form-check-label" for="sym-8">Rust / body damage</label></div></div>
-                <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="oil-leak" id="sym-9"><label class="form-check-label" for="sym-9">Oil leaks</label></div></div>
+                <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="brake-issues" id="sym-5"><label class="form-check-label" for="sym-5">Brakes</label></div></div>
+                <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="electrical" id="sym-6"><label class="form-check-label" for="sym-6">Electrical</label></div></div>
+                <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="ac-not-cold" id="sym-7"><label class="form-check-label" for="sym-7">A/C</label></div></div>
+                <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="rust" id="sym-8"><label class="form-check-label" for="sym-8">Rust</label></div></div>
+                <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="oil-leak" id="sym-9"><label class="form-check-label" for="sym-9">Oil leak</label></div></div>
                 <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="rough-idle" id="sym-10"><label class="form-check-label" for="sym-10">Rough idle</label></div></div>
-                <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="hard-start" id="sym-11"><label class="form-check-label" for="sym-11">Hard starting</label></div></div>
-                <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="warning-light" id="sym-12"><label class="form-check-label" for="sym-12">Warning light on</label></div></div>
+                <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="hard-start" id="sym-11"><label class="form-check-label" for="sym-11">Hard start</label></div></div>
+                <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="warning-light" id="sym-12"><label class="form-check-label" for="sym-12">Warning light</label></div></div>
               </div>
             </div>
-
-            <div class="mt-4">
-              <button class="btn btn-primary" id="btn-run-diagnosis">
-                <i class="bi bi-search"></i> Run Diagnosis & Get Advice
-              </button>
-            </div>
+            <div class="mt-3"><button class="btn btn-primary w-100" id="btn-run-diagnosis"><i class="bi bi-search"></i> Run Diagnosis</button></div>
           </div>
         </div>
-
-        <!-- Results -->
         <div id="diag-results" class="content-card d-none">
-          <div class="card-header bg-primary text-white">
-            <span><i class="bi bi-clipboard2-check"></i> Diagnosis Results & Restoration Plan</span>
-          </div>
-          <div class="card-body" id="diag-results-content">
-            <!-- Filled by JavaScript -->
-          </div>
+          <div class="card-header bg-primary text-white"><i class="bi bi-clipboard2-check"></i> Results & Restoration Plan</div>
+          <div class="card-body" id="diag-results-content"></div>
         </div>
       </section>
 
-      <!-- ==================== SETTINGS ==================== -->
+      <!-- SETTINGS -->
       <section id="section-settings" class="section">
         <div class="row g-3">
-          <div class="col-lg-6">
+          <div class="col-md-6">
             <div class="settings-card">
               <h6><i class="bi bi-palette"></i> Appearance</h6>
-              <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="setting-dark-mode">
-                <label class="form-check-label" for="setting-dark-mode">Dark Mode</label>
-              </div>
+              <div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="setting-dark-mode"><label class="form-check-label" for="setting-dark-mode">Dark Mode</label></div>
             </div>
-
             <div class="settings-card">
               <h6><i class="bi bi-info-circle"></i> About</h6>
               <p class="mb-1"><strong>Motor Industry App</strong></p>
-              <p class="text-muted small mb-1">Version 1.2.0</p>
-              <p class="text-muted small mb-0">Dealer Management System + Diagnostics & Restoration Advisor.</p>
+              <p class="text-muted small mb-0">Version 1.3.0 • Diagnostics + Costs</p>
             </div>
           </div>
-
-          <div class="col-lg-6">
+          <div class="col-md-6">
             <div class="settings-card">
-              <h6><i class="bi bi-shield-exclamation"></i> Data Management</h6>
-              <p class="text-muted small">Clear all vehicles, customers, services and parts data. This cannot be undone.</p>
-              <button class="btn btn-outline-danger btn-sm" id="btn-clear-data">
-                <i class="bi bi-trash"></i> Clear All Data
-              </button>
+              <h6><i class="bi bi-shield-exclamation"></i> Data</h6>
+              <p class="text-muted small">Clear all app data permanently.</p>
+              <button class="btn btn-outline-danger btn-sm" id="btn-clear-data"><i class="bi bi-trash"></i> Clear All Data</button>
             </div>
-
             <div class="settings-card">
               <h6><i class="bi bi-box-arrow-right"></i> Account</h6>
-              <button class="btn btn-outline-secondary btn-sm" id="btn-settings-logout">
-                <i class="bi bi-box-arrow-left"></i> Logout
-              </button>
+              <button class="btn btn-outline-secondary btn-sm" id="btn-settings-logout"><i class="bi bi-box-arrow-left"></i> Logout</button>
             </div>
           </div>
         </div>
       </section>
     </main>
+
+    <!-- BOTTOM NAVIGATION (Mobile) -->
+    <nav class="bottom-nav">
+      <a href="#" class="bottom-nav-item active" data-section="dashboard"><i class="bi bi-grid-1x2"></i><span>Home</span></a>
+      <a href="#" class="bottom-nav-item" data-section="vehicles"><i class="bi bi-car-front"></i><span>Vehicles</span></a>
+      <a href="#" class="bottom-nav-item" data-section="diagnostics"><i class="bi bi-clipboard2-pulse"></i><span>Diagnose</span></a>
+      <a href="#" class="bottom-nav-item" data-section="services"><i class="bi bi-wrench-adjustable"></i><span>Services</span></a>
+      <a href="#" class="bottom-nav-item" data-section="settings"><i class="bi bi-gear"></i><span>Settings</span></a>
+    </nav>
   </div>
 
-  <!-- ==================== MODALS ==================== -->
+  <!-- MODALS (kept compact) -->
+  <div class="modal fade" id="vehicleModal" tabindex="-1"><div class="modal-dialog modal-lg"><div class="modal-content"><form id="vehicle-form"><div class="modal-header"><h5 class="modal-title" id="vehicleModalLabel">Add Vehicle</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="row g-3"><div class="col-md-6"><label class="form-label">Make *</label><input type="text" class="form-control" id="v-make" required></div><div class="col-md-6"><label class="form-label">Model *</label><input type="text" class="form-control" id="v-model" required></div><div class="col-md-4"><label class="form-label">Year *</label><input type="number" class="form-control" id="v-year" required min="1990" max="2030"></div><div class="col-md-4"><label class="form-label">Price (ZAR) *</label><input type="number" class="form-control" id="v-price" required min="0"></div><div class="col-md-4"><label class="form-label">Status</label><select class="form-select" id="v-status"><option>In Stock</option><option>Reserved</option><option>Sold</option></select></div><div class="col-md-4"><label class="form-label">Mileage</label><input type="number" class="form-control" id="v-mileage" min="0"></div><div class="col-md-4"><label class="form-label">Colour</label><input type="text" class="form-control" id="v-color"></div><div class="col-md-4"><label class="form-label">Fuel</label><select class="form-select" id="v-fuel"><option>Petrol</option><option>Diesel</option><option>Hybrid</option><option>Electric</option></select></div><div class="col-12"><label class="form-label">VIN</label><input type="text" class="form-control" id="v-vin"></div></div></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button><button type="submit" class="btn btn-primary">Save</button></div></form></div></div></div>
 
-  <!-- Vehicle Modal -->
-  <div class="modal fade" id="vehicleModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <form id="vehicle-form">
-          <div class="modal-header">
-            <h5 class="modal-title" id="vehicleModalLabel">Add New Vehicle</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-          <div class="modal-body">
-            <div class="row g-3">
-              <div class="col-md-6">
-                <label class="form-label">Make *</label>
-                <input type="text" class="form-control" id="v-make" required placeholder="e.g. Toyota">
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">Model *</label>
-                <input type="text" class="form-control" id="v-model" required placeholder="e.g. Corolla">
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">Year *</label>
-                <input type="number" class="form-control" id="v-year" required min="1990" max="2030">
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">Price (ZAR) *</label>
-                <input type="number" class="form-control" id="v-price" required min="0" step="1000">
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">Status *</label>
-                <select class="form-select" id="v-status" required>
-                  <option value="In Stock">In Stock</option>
-                  <option value="Reserved">Reserved</option>
-                  <option value="Sold">Sold</option>
-                </select>
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">Mileage (km)</label>
-                <input type="number" class="form-control" id="v-mileage" min="0">
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">Colour</label>
-                <input type="text" class="form-control" id="v-color" placeholder="e.g. White">
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">Fuel Type</label>
-                <select class="form-select" id="v-fuel">
-                  <option value="Petrol">Petrol</option>
-                  <option value="Diesel">Diesel</option>
-                  <option value="Hybrid">Hybrid</option>
-                  <option value="Electric">Electric</option>
-                </select>
-              </div>
-              <div class="col-12">
-                <label class="form-label">VIN</label>
-                <input type="text" class="form-control" id="v-vin" placeholder="Vehicle Identification Number">
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-primary">Save Vehicle</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+  <div class="modal fade" id="customerModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><form id="customer-form"><div class="modal-header"><h5 class="modal-title" id="customerModalLabel">Add Customer</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="mb-3"><label class="form-label">Name *</label><input type="text" class="form-control" id="c-name" required></div><div class="mb-3"><label class="form-label">Email *</label><input type="email" class="form-control" id="c-email" required></div><div class="mb-3"><label class="form-label">Phone *</label><input type="tel" class="form-control" id="c-phone" required></div><div class="row g-3 mb-3"><div class="col-6"><label class="form-label">Type</label><select class="form-select" id="c-type"><option>Customer</option><option>Lead</option></select></div><div class="col-6"><label class="form-label">Status</label><select class="form-select" id="c-status"><option>Active</option><option>New</option><option>Contacted</option><option>Inactive</option></select></div></div><div class="mb-3"><label class="form-label">Notes</label><textarea class="form-control" id="c-notes" rows="2"></textarea></div></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button><button type="submit" class="btn btn-primary">Save</button></div></form></div></div></div>
 
-  <!-- Customer Modal -->
-  <div class="modal fade" id="customerModal" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <form id="customer-form">
-          <div class="modal-header">
-            <h5 class="modal-title" id="customerModalLabel">Add Customer / Lead</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-          <div class="modal-body">
-            <div class="mb-3">
-              <label class="form-label">Full Name *</label>
-              <input type="text" class="form-control" id="c-name" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Email *</label>
-              <input type="email" class="form-control" id="c-email" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Phone *</label>
-              <input type="tel" class="form-control" id="c-phone" required>
-            </div>
-            <div class="row g-3 mb-3">
-              <div class="col-6">
-                <label class="form-label">Type *</label>
-                <select class="form-select" id="c-type" required>
-                  <option value="Customer">Customer</option>
-                  <option value="Lead">Lead</option>
-                </select>
-              </div>
-              <div class="col-6">
-                <label class="form-label">Status *</label>
-                <select class="form-select" id="c-status" required>
-                  <option value="Active">Active</option>
-                  <option value="New">New</option>
-                  <option value="Contacted">Contacted</option>
-                  <option value="Inactive">Inactive</option>
-                </select>
-              </div>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Notes</label>
-              <textarea class="form-control" id="c-notes" rows="2"></textarea>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-primary">Save</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+  <div class="modal fade" id="serviceModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><form id="service-form"><div class="modal-header"><h5 class="modal-title" id="serviceModalLabel">New Booking</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="mb-3"><label class="form-label">Vehicle *</label><input type="text" class="form-control" id="s-vehicle" required></div><div class="mb-3"><label class="form-label">Customer *</label><input type="text" class="form-control" id="s-customer" required></div><div class="row g-3 mb-3"><div class="col-6"><label class="form-label">Date *</label><input type="date" class="form-control" id="s-date" required></div><div class="col-6"><label class="form-label">Type</label><select class="form-select" id="s-type"><option>Service</option><option>Repair</option><option>Diagnostic</option><option>Bodywork</option></select></div></div><div class="row g-3 mb-3"><div class="col-6"><label class="form-label">Status</label><select class="form-select" id="s-status"><option>Scheduled</option><option>In Progress</option><option>Completed</option><option>Cancelled</option></select></div><div class="col-6"><label class="form-label">Technician</label><input type="text" class="form-control" id="s-technician"></div></div><div class="mb-3"><label class="form-label">Notes</label><textarea class="form-control" id="s-notes" rows="2"></textarea></div></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button><button type="submit" class="btn btn-primary">Save</button></div></form></div></div></div>
 
-  <!-- Service Modal -->
-  <div class="modal fade" id="serviceModal" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <form id="service-form">
-          <div class="modal-header">
-            <h5 class="modal-title" id="serviceModalLabel">New Service Booking</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-          <div class="modal-body">
-            <div class="mb-3">
-              <label class="form-label">Vehicle *</label>
-              <input type="text" class="form-control" id="s-vehicle" required placeholder="e.g. Toyota Corolla (2023)">
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Customer *</label>
-              <input type="text" class="form-control" id="s-customer" required>
-            </div>
-            <div class="row g-3 mb-3">
-              <div class="col-6">
-                <label class="form-label">Date *</label>
-                <input type="date" class="form-control" id="s-date" required>
-              </div>
-              <div class="col-6">
-                <label class="form-label">Type *</label>
-                <select class="form-select" id="s-type" required>
-                  <option value="Service">Service</option>
-                  <option value="Repair">Repair</option>
-                  <option value="Diagnostic">Diagnostic</option>
-                  <option value="Bodywork">Bodywork</option>
-                </select>
-              </div>
-            </div>
-            <div class="row g-3 mb-3">
-              <div class="col-6">
-                <label class="form-label">Status *</label>
-                <select class="form-select" id="s-status" required>
-                  <option value="Scheduled">Scheduled</option>
-                  <option value="In Progress">In Progress</option>
-                  <option value="Completed">Completed</option>
-                  <option value="Cancelled">Cancelled</option>
-                </select>
-              </div>
-              <div class="col-6">
-                <label class="form-label">Technician</label>
-                <input type="text" class="form-control" id="s-technician" placeholder="e.g. Sipho Nkosi">
-              </div>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Notes</label>
-              <textarea class="form-control" id="s-notes" rows="2"></textarea>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-primary">Save Booking</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+  <div class="modal fade" id="partModal" tabindex="-1"><div class="modal-dialog modal-lg"><div class="modal-content"><form id="part-form"><div class="modal-header"><h5 class="modal-title" id="partModalLabel">Add Part</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="row g-3"><div class="col-md-6"><label class="form-label">Part Number *</label><input type="text" class="form-control" id="p-partNumber" required></div><div class="col-md-6"><label class="form-label">Name *</label><input type="text" class="form-control" id="p-name" required></div><div class="col-md-4"><label class="form-label">Category</label><select class="form-select" id="p-category"><option>Brakes</option><option>Lubricants</option><option>Filters</option><option>Ignition</option><option>Electrical</option><option>Tyres</option><option>Accessories</option><option>Other</option></select></div><div class="col-md-4"><label class="form-label">Qty *</label><input type="number" class="form-control" id="p-quantity" required min="0" value="0"></div><div class="col-md-4"><label class="form-label">Min Stock *</label><input type="number" class="form-control" id="p-minStock" required min="0" value="5"></div><div class="col-md-4"><label class="form-label">Price (ZAR) *</label><input type="number" class="form-control" id="p-price" required min="0" step="0.01"></div><div class="col-md-4"><label class="form-label">Supplier</label><input type="text" class="form-control" id="p-supplier"></div><div class="col-md-4"><label class="form-label">Location</label><input type="text" class="form-control" id="p-location"></div></div></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button><button type="submit" class="btn btn-primary">Save</button></div></form></div></div></div>
 
-  <!-- Part Modal -->
-  <div class="modal fade" id="partModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <form id="part-form">
-          <div class="modal-header">
-            <h5 class="modal-title" id="partModalLabel">Add New Part</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-          <div class="modal-body">
-            <div class="row g-3">
-              <div class="col-md-6">
-                <label class="form-label">Part Number *</label>
-                <input type="text" class="form-control" id="p-partNumber" required placeholder="e.g. BRK-PAD-001">
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">Part Name *</label>
-                <input type="text" class="form-control" id="p-name" required placeholder="e.g. Front Brake Pads">
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">Category *</label>
-                <select class="form-select" id="p-category" required>
-                  <option value="Brakes">Brakes</option>
-                  <option value="Lubricants">Lubricants</option>
-                  <option value="Filters">Filters</option>
-                  <option value="Ignition">Ignition</option>
-                  <option value="Electrical">Electrical</option>
-                  <option value="Tyres">Tyres</option>
-                  <option value="Accessories">Accessories</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">Quantity *</label>
-                <input type="number" class="form-control" id="p-quantity" required min="0" value="0">
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">Min Stock Level *</label>
-                <input type="number" class="form-control" id="p-minStock" required min="0" value="5">
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">Unit Price (ZAR) *</label>
-                <input type="number" class="form-control" id="p-price" required min="0" step="0.01">
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">Supplier</label>
-                <input type="text" class="form-control" id="p-supplier" placeholder="e.g. AutoParts SA">
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">Location / Bin</label>
-                <input type="text" class="form-control" id="p-location" placeholder="e.g. Aisle A-12">
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-primary">Save Part</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <!-- APK Info Modal -->
-  <div class="modal fade" id="apkModal" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title"><i class="bi bi-android2"></i> Get the App on Your Phone</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          <h6>Option 1 – Easiest (Recommended)</h6>
-          <p class="small">Install as a Progressive Web App:</p>
-          <ol class="small">
-            <li>Open this app in <strong>Chrome</strong> on your Android phone</li>
-            <li>Tap the menu (⋮) → <strong>Install app</strong> or <strong>Add to Home screen</strong></li>
-          </ol>
-          <hr>
-          <h6>Option 2 – Build a real APK with Capacitor</h6>
-          <pre class="bg-light p-2 rounded small">npm install
+  <div class="modal fade" id="apkModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5 class="modal-title"><i class="bi bi-android2"></i> Get the App</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><p class="small">Best way: Open this site in <strong>Chrome</strong> on your phone → Menu → <strong>Install app</strong>.</p><hr><p class="small mb-1">Or build an APK with Capacitor:</p><pre class="bg-light p-2 rounded small mb-0">npm install
 npx cap add android
 npx cap sync
-npx cap open android</pre>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
+npx cap open android</pre></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button></div></div></div></div>
 
-  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script type="module" src="js/app.js"></script>
-
   <script>
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-          .then(reg => console.log('SW registered', reg.scope))
-          .catch(err => console.log('SW registration failed', err));
-      });
+      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
     }
-
     let deferredPrompt;
     const installBtn = document.getElementById('btn-install-pwa');
-
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
       if (installBtn) installBtn.classList.remove('d-none');
     });
-
     installBtn?.addEventListener('click', async () => {
       if (!deferredPrompt) return;
       deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
+      await deferredPrompt.userChoice;
       deferredPrompt = null;
       installBtn.classList.add('d-none');
     });
-
     document.getElementById('btn-download-apk')?.addEventListener('click', () => {
-      const modal = new bootstrap.Modal(document.getElementById('apkModal'));
-      modal.show();
+      new bootstrap.Modal(document.getElementById('apkModal')).show();
     });
   </script>
 </body>
