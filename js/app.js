@@ -1,10 +1,53 @@
 // app.js - Main application entry point
+import { isAuthenticated, getSession, login, logout } from './data.js';
 import { renderDashboard } from './dashboard.js';
 import { renderVehicles, openVehicleModal, saveVehicle } from './vehicles.js';
 import { renderCustomers, openCustomerModal, saveCustomer } from './customers.js';
 import { renderServices, openServiceModal, saveService } from './services.js';
+import { renderParts, openPartModal, savePart } from './parts.js';
 
-// Navigation
+// ---------- Auth UI ----------
+function showLogin() {
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('app-shell').style.display = 'none';
+}
+
+function showApp() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app-shell').style.display = 'block';
+
+  const session = getSession();
+  if (session) {
+    const userEl = document.getElementById('current-user');
+    if (userEl) userEl.textContent = `${session.name} (${session.role})`;
+  }
+
+  showSection('dashboard');
+}
+
+function handleLogin(e) {
+  e.preventDefault();
+  const username = document.getElementById('login-username').value.trim();
+  const password = document.getElementById('login-password').value;
+  const errorEl = document.getElementById('login-error');
+
+  const result = login(username, password);
+  if (result.success) {
+    errorEl.classList.add('d-none');
+    showApp();
+  } else {
+    errorEl.textContent = result.message;
+    errorEl.classList.remove('d-none');
+  }
+}
+
+function handleLogout() {
+  logout();
+  showLogin();
+  document.getElementById('login-form').reset();
+}
+
+// ---------- Navigation ----------
 function showSection(sectionId) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
@@ -15,7 +58,17 @@ function showSection(sectionId) {
   if (section) section.classList.add('active');
   if (link) link.classList.add('active');
 
-  // Render content
+  // Update page title
+  const titles = {
+    dashboard: 'Dashboard',
+    vehicles: 'Vehicle Inventory',
+    customers: 'Customers & Leads',
+    services: 'Service Bookings',
+    parts: 'Parts Inventory'
+  };
+  const titleEl = document.getElementById('page-title');
+  if (titleEl) titleEl.textContent = titles[sectionId] || 'Dashboard';
+
   switch (sectionId) {
     case 'dashboard':
       renderDashboard();
@@ -29,14 +82,21 @@ function showSection(sectionId) {
     case 'services':
       renderServices();
       break;
+    case 'parts':
+      renderParts();
+      break;
   }
 
   // Close mobile sidebar
-  document.getElementById('sidebar').classList.remove('show');
+  document.getElementById('sidebar')?.classList.remove('show');
 }
 
-// Initialize
+// ---------- Initialize ----------
 document.addEventListener('DOMContentLoaded', () => {
+  // Auth
+  document.getElementById('login-form')?.addEventListener('submit', handleLogin);
+  document.getElementById('btn-logout')?.addEventListener('click', handleLogout);
+
   // Nav clicks
   document.querySelectorAll('[data-section]').forEach(link => {
     link.addEventListener('click', (e) => {
@@ -54,15 +114,28 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('vehicle-form')?.addEventListener('submit', saveVehicle);
   document.getElementById('customer-form')?.addEventListener('submit', saveCustomer);
   document.getElementById('service-form')?.addEventListener('submit', saveService);
+  document.getElementById('part-form')?.addEventListener('submit', savePart);
 
   // Add buttons
   document.getElementById('btn-add-vehicle')?.addEventListener('click', () => openVehicleModal());
   document.getElementById('btn-add-customer')?.addEventListener('click', () => openCustomerModal());
   document.getElementById('btn-add-service')?.addEventListener('click', () => openServiceModal());
+  document.getElementById('btn-add-part')?.addEventListener('click', () => openPartModal());
 
-  // Start on dashboard
-  showSection('dashboard');
+  // Check auth on load
+  if (isAuthenticated()) {
+    showApp();
+  } else {
+    showLogin();
+  }
+
+  // Set current date
+  const dateEl = document.getElementById('current-date');
+  if (dateEl) {
+    dateEl.textContent = new Date().toLocaleDateString('en-ZA', {
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+    });
+  }
 });
 
-// Expose showSection for any external use
 window.showSection = showSection;
