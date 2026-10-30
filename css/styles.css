@@ -17,6 +17,69 @@ body {
   min-height: 100vh;
 }
 
+/* ---------- Login Screen ---------- */
+#login-screen {
+  display: none;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 50%, #0f3460 100%);
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.login-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  width: 100%;
+  max-width: 420px;
+  overflow: hidden;
+}
+
+.login-header {
+  background: linear-gradient(135deg, var(--secondary), var(--accent));
+  color: white;
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+
+.login-header i {
+  font-size: 2.5rem;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.login-header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.login-header p {
+  margin: 0.35rem 0 0;
+  opacity: 0.8;
+  font-size: 0.9rem;
+}
+
+.login-body {
+  padding: 2rem 1.75rem;
+}
+
+.login-demo {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: 1.25rem;
+}
+
+.login-demo strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: #333;
+}
+
 /* Sidebar */
 .sidebar {
   width: 260px;
@@ -205,7 +268,6 @@ body {
 .section.active {
   display: block;
 }
-
 .empty-state {
   text-align: center;
   padding: 3rem 1rem;
@@ -216,4 +278,8 @@ body {
   font-size: 3rem;
   margin-bottom: 1rem;
   opacity: 0.4;
+}
+
+#app-shell {
+  display: none;
 }
