@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="96" fill="#1a1a2e"/>
+  <circle cx="256" cy="220" r="90" fill="none" stroke="#c41e3a" stroke-width="28"/>
+  <circle cx="256" cy="220" r="20" fill="#c41e3a"/>
+  <path d="M160 340 h192 c20 0 30 20 30 40 v20 H130 v-20 c0-20 10-40 30-40z" fill="#c41e3a"/>
+  <text x="256" y="450" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="white" text-anchor="middle">MIA</text>
+</svg>
