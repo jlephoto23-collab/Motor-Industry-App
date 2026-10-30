@@ -1,4 +1,16 @@
-// diagnostics.js - Car Diagnostics & Restoration Advisor (with cost ranges)
+// diagnostics.js - Car Diagnostics & Restoration Advisor (with cost ranges + loading)
+
+export function showLoading(message = 'Loading...') {
+  const overlay = document.getElementById('loading-overlay');
+  const text = document.getElementById('loading-text');
+  if (text) text.textContent = message;
+  if (overlay) overlay.classList.add('show');
+}
+
+export function hideLoading() {
+  const overlay = document.getElementById('loading-overlay');
+  if (overlay) overlay.classList.remove('show');
+}
 
 export function renderDiagnostics() {
   const results = document.getElementById('diag-results');
@@ -22,10 +34,16 @@ export function runDiagnosis() {
     return;
   }
 
-  const age = new Date().getFullYear() - year;
-  const recommendations = generateRecommendations({ make, model, year, age, mileage, condition, symptoms });
+  // Show loading screen
+  showLoading('Analysing vehicle...');
 
-  displayResults(make, model, year, mileage, recommendations);
+  // Small delay so the loading screen is visible
+  setTimeout(() => {
+    const age = new Date().getFullYear() - year;
+    const recommendations = generateRecommendations({ make, model, year, age, mileage, condition, symptoms });
+    displayResults(make, model, year, mileage, recommendations);
+    hideLoading();
+  }, 900);
 }
 
 function generateRecommendations({ make, model, year, age, mileage, condition, symptoms }) {
@@ -41,7 +59,7 @@ function generateRecommendations({ make, model, year, age, mileage, condition, s
   const isTruck = /truck|bakkie|ranger|hilux|amarok|navara|d-max|land cruiser|fortuner|patrol|sprinter|crafter|transit|triton|l200|bt-50|tundra|sierra|f-150|f150|ram|silverado/i.test(make + ' ' + model);
   const isClassicBmw = makeLower.includes('bmw') && year <= 1998;
 
-  // ========== GENERAL MILEAGE-BASED SERVICES ==========
+  // Mileage-based
   if (mileage >= 10000 && mileage < 30000) {
     recs.recommended.push('Minor service (oil + oil filter) — R800 – R1 500');
   }
@@ -65,7 +83,7 @@ function generateRecommendations({ make, model, year, age, mileage, condition, s
     recs.priority.push('Thorough engine health check (compression / leak-down test) — R1 500 – R3 000');
   }
 
-  // ========== AGE-BASED ==========
+  // Age-based
   if (age >= 5) {
     recs.recommended.push('Battery load test & possible replacement — R1 400 – R2 800');
     recs.recommended.push('Brake fluid replacement (every 2–3 years) — R600 – R1 200');
@@ -86,7 +104,7 @@ function generateRecommendations({ make, model, year, age, mileage, condition, s
     recs.notes.push('Classic / project vehicle territory. Focus on rust repair, reliable running gear and period-correct restoration.');
   }
 
-  // ========== CONDITION ==========
+  // Condition
   if (condition === 'Poor') {
     recs.priority.unshift('Full mechanical & safety inspection before spending money on cosmetics — R1 500 – R3 000');
     recs.priority.push('Fix brakes, tyres, lights, steering and suspension first');
@@ -95,7 +113,7 @@ function generateRecommendations({ make, model, year, age, mileage, condition, s
     recs.recommended.push('Focus on reliability first, then cosmetics and comfort');
   }
 
-  // ========== SYMPTOM-BASED ==========
+  // Symptoms
   const symptomMap = {
     'engine-noise': 'Engine noise – check valve clearances, timing chain/belt tensioner, oil pressure and engine mounts — R1 500 – R8 000+',
     'smoke': 'Exhaust smoke – Blue = burning oil, White = coolant (possible head gasket), Black = rich mixture / turbo issues — Diagnosis R1 200 – R2 500',
@@ -115,9 +133,7 @@ function generateRecommendations({ make, model, year, age, mileage, condition, s
     if (symptomMap[s]) recs.priority.push(symptomMap[s]);
   });
 
-  // ========== BRAND / MODEL SPECIFIC ADVICE ==========
-
-  // --- TOYOTA ---
+  // Brand specific
   if (makeLower.includes('toyota') || makeLower.includes('lexus')) {
     recs.notes.push('Toyota / Lexus: Extremely reliable if serviced regularly. Focus on oil changes and water pump + timing components on higher mileage engines.');
     if (modelLower.includes('hilux') || modelLower.includes('fortuner') || modelLower.includes('land cruiser')) {
@@ -126,23 +142,19 @@ function generateRecommendations({ make, model, year, age, mileage, condition, s
     }
   }
 
-  // --- BMW ---
   if (makeLower.includes('bmw')) {
     recs.notes.push('BMW: Great to drive but can be expensive as they age. Oil leaks, cooling system and electronic issues are common.');
-
     if (isClassicBmw) {
-      // E30 / E36 era specific
       recs.notes.push('Classic BMW (E30/E36 era): These are now highly collectible. Focus on rust, cooling system, and original character.');
       recs.priority.push('Rust inspection & repair (sills, jacking points, rear arches, floor pans) — R5 000 – R30 000+');
       recs.priority.push('Cooling system overhaul (radiator, water pump, thermostat, hoses) — R4 500 – R9 000');
       recs.recommended.push('Valve cover gasket + oil filter housing gasket (common leaks) — R2 500 – R5 500');
       recs.recommended.push('Timing belt + water pump (M20 engine in 325i/is) — R5 500 – R9 500');
-      recs.recommended.push('Service the manual gearbox or automatic (depending on model) — R2 500 – R6 000');
+      recs.recommended.push('Service the manual gearbox or automatic — R2 500 – R6 000');
       recs.optional.push('New poly bushes or quality OEM-style suspension refresh — R6 000 – R15 000');
       recs.optional.push('Interior restoration (seats, door cards, headliner) — R8 000 – R25 000');
       recs.optional.push('Period-correct wheels refinish + quality tyres — R8 000 – R18 000');
     } else {
-      // Modern BMW
       recs.priority.push('Cooling system inspection (radiator, water pump, thermostat, expansion tank) — R4 000 – R11 000');
       recs.recommended.push('Check for oil leaks at valve cover gasket, oil filter housing gasket and oil pan — R3 000 – R9 000');
       recs.recommended.push('Inspect VANOS system and valve cover for leaks on N-series engines — R4 000 – R12 000');
@@ -153,7 +165,6 @@ function generateRecommendations({ make, model, year, age, mileage, condition, s
     }
   }
 
-  // --- MERCEDES-BENZ ---
   if (makeLower.includes('mercedes') || makeLower.includes('benz') || makeLower.includes('merc')) {
     recs.notes.push('Mercedes-Benz: Comfortable and strong, but balance shaft gears, ABC suspension and electronics can be costly.');
     recs.recommended.push('Check for oil leaks and balance shaft gear issues (M272/M273) — R15 000 – R35 000 if needed');
@@ -161,7 +172,6 @@ function generateRecommendations({ make, model, year, age, mileage, condition, s
     recs.recommended.push('Service the automatic transmission — R4 000 – R8 500');
   }
 
-  // --- FORD ---
   if (makeLower.includes('ford')) {
     recs.notes.push('Ford: Generally good value. Focus on known issues per model.');
     if (modelLower.includes('ranger') || modelLower.includes('everest')) {
@@ -170,7 +180,6 @@ function generateRecommendations({ make, model, year, age, mileage, condition, s
     }
   }
 
-  // --- FIAT UNO ---
   if (makeLower.includes('fiat') || modelLower.includes('uno')) {
     recs.notes.push('Fiat Uno: Simple, light and easy to work on. Rust and electrical gremlins are the main enemies.');
     recs.priority.push('Thorough rust inspection (sills, floor, wheel arches) — R3 000 – R15 000 to repair');
@@ -178,7 +187,6 @@ function generateRecommendations({ make, model, year, age, mileage, condition, s
     recs.recommended.push('Inspect CV joints and driveshafts — R2 000 – R5 500');
   }
 
-  // --- ALFA ROMEO ---
   if (makeLower.includes('alfa') || makeLower.includes('romeo')) {
     recs.notes.push('Alfa Romeo: Characterful and fun, but need regular care. Timing components are critical.');
     recs.priority.push('Timing belt + water pump replacement if not recently done — R5 500 – R11 000');
@@ -186,7 +194,6 @@ function generateRecommendations({ make, model, year, age, mileage, condition, s
     recs.recommended.push('Inspect electrical system and window regulators — R1 500 – R5 000');
   }
 
-  // --- TRUCKS / BAKKIES ---
   if (isTruck) {
     recs.notes.push('Commercial / Bakkie / Truck: These work hard. Focus on drivetrain, suspension and cooling.');
     recs.recommended.push('Inspect rear suspension (leaf springs, bushes, shackles) — R3 500 – R12 000');
@@ -194,14 +201,13 @@ function generateRecommendations({ make, model, year, age, mileage, condition, s
     recs.recommended.push('Cooling system and intercooler (turbo diesel) — R3 000 – R9 000');
   }
 
-  // ========== PATH TO “LIKE NEW” ==========
+  // Like-new path
   recs.optional.push('Professional detail with paint correction + ceramic coating — R4 500 – R12 000');
   recs.optional.push('Interior deep clean / leather or fabric restoration — R2 500 – R8 000');
   recs.optional.push('New quality tyres (set of 4) — R6 000 – R16 000');
   recs.optional.push('Replace all major fluids (engine, gearbox, diff, brake, coolant) — R3 500 – R7 500');
   recs.optional.push('Refresh faded exterior plastics and restore headlights — R1 500 – R4 000');
 
-  // Remove duplicates
   recs.priority = [...new Set(recs.priority)];
   recs.recommended = [...new Set(recs.recommended)];
   recs.optional = [...new Set(recs.optional)];
@@ -216,7 +222,7 @@ function displayResults(make, model, year, mileage, recs) {
   let html = `
     <div class="mb-3">
       <h5 class="mb-1">${make} ${model} (${year})</h5>
-      <p class="text-muted small mb-0">Mileage: ${mileage.toLocaleString()} km &nbsp;|&nbsp; Estimated costs in ZAR (parts + labour, independent workshop rates)</p>
+      <p class="text-muted small mb-0">Mileage: ${mileage.toLocaleString()} km &nbsp;|&nbsp; Estimated costs in ZAR</p>
     </div>
   `;
 
