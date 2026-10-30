@@ -6,6 +6,8 @@ import { renderCustomers, openCustomerModal, saveCustomer } from './customers.js
 import { renderServices, openServiceModal, saveService } from './services.js';
 import { renderParts, openPartModal, savePart } from './parts.js';
 
+let currentSection = 'dashboard';
+
 // ---------- Auth UI ----------
 function showLogin() {
   document.getElementById('login-screen').style.display = 'flex';
@@ -47,8 +49,29 @@ function handleLogout() {
   document.getElementById('login-form').reset();
 }
 
+// ---------- Search ----------
+function handleSearch() {
+  const term = document.getElementById('global-search')?.value || '';
+  switch (currentSection) {
+    case 'vehicles':
+      renderVehicles(term);
+      break;
+    case 'customers':
+      renderCustomers(term);
+      break;
+    case 'services':
+      renderServices(term);
+      break;
+    case 'parts':
+      renderParts(term);
+      break;
+  }
+}
+
 // ---------- Navigation ----------
 function showSection(sectionId) {
+  currentSection = sectionId;
+
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
 
@@ -58,7 +81,6 @@ function showSection(sectionId) {
   if (section) section.classList.add('active');
   if (link) link.classList.add('active');
 
-  // Update page title
   const titles = {
     dashboard: 'Dashboard',
     vehicles: 'Vehicle Inventory',
@@ -68,6 +90,16 @@ function showSection(sectionId) {
   };
   const titleEl = document.getElementById('page-title');
   if (titleEl) titleEl.textContent = titles[sectionId] || 'Dashboard';
+
+  // Clear search when switching sections
+  const searchInput = document.getElementById('global-search');
+  if (searchInput) searchInput.value = '';
+
+  // Show/hide search bar (hide on dashboard)
+  const searchContainer = document.getElementById('search-container');
+  if (searchContainer) {
+    searchContainer.style.display = sectionId === 'dashboard' ? 'none' : 'flex';
+  }
 
   switch (sectionId) {
     case 'dashboard':
@@ -87,7 +119,6 @@ function showSection(sectionId) {
       break;
   }
 
-  // Close mobile sidebar
   document.getElementById('sidebar')?.classList.remove('show');
 }
 
@@ -109,6 +140,9 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('menu-toggle')?.addEventListener('click', () => {
     document.getElementById('sidebar').classList.toggle('show');
   });
+
+  // Search
+  document.getElementById('global-search')?.addEventListener('input', handleSearch);
 
   // Form submissions
   document.getElementById('vehicle-form')?.addEventListener('submit', saveVehicle);
