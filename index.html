@@ -14,232 +14,303 @@
 </head>
 <body>
 
-  <!-- Sidebar -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-brand">
-      <i class="bi bi-speedometer2"></i>
-      <span>Motor Industry</span>
+  <!-- ==================== LOGIN SCREEN ==================== -->
+  <div id="login-screen">
+    <div class="login-card">
+      <div class="login-header">
+        <i class="bi bi-speedometer2"></i>
+        <h1>Motor Industry App</h1>
+        <p>Dealer Management System</p>
+      </div>
+      <div class="login-body">
+        <form id="login-form">
+          <div class="mb-3">
+            <label class="form-label" for="login-username">Username</label>
+            <input type="text" class="form-control form-control-lg" id="login-username" required autofocus placeholder="Enter username">
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="login-password">Password</label>
+            <input type="password" class="form-control form-control-lg" id="login-password" required placeholder="Enter password">
+          </div>
+          <div id="login-error" class="alert alert-danger d-none py-2" role="alert"></div>
+          <button type="submit" class="btn btn-primary btn-lg w-100">
+            <i class="bi bi-box-arrow-in-right"></i> Sign In
+          </button>
+        </form>
+        <div class="login-demo">
+          <strong>Demo Accounts</strong>
+          admin / admin123 &nbsp;•&nbsp; sales / sales123 &nbsp;•&nbsp; tech / tech123
+        </div>
+      </div>
     </div>
-    <nav class="mt-3">
-      <a href="#" class="nav-link active" data-section="dashboard">
-        <i class="bi bi-grid-1x2"></i> Dashboard
-      </a>
-      <a href="#" class="nav-link" data-section="vehicles">
-        <i class="bi bi-car-front"></i> Vehicles
-      </a>
-      <a href="#" class="nav-link" data-section="customers">
-        <i class="bi bi-people"></i> Customers
-      </a>
-      <a href="#" class="nav-link" data-section="services">
-        <i class="bi bi-wrench-adjustable"></i> Services
-      </a>
-    </nav>
-    <div class="position-absolute bottom-0 start-0 end-0 p-3 text-white-50 small">
-      <div>Motor Industry App</div>
-      <div>v1.0 • Demo</div>
-    </div>
-  </aside>
+  </div>
 
-  <!-- Main Content -->
-  <main class="main-content">
-    <!-- Top bar -->
-    <div class="topbar">
-      <div class="d-flex align-items-center gap-3">
-        <button class="btn btn-outline-secondary d-lg-none" id="menu-toggle">
-          <i class="bi bi-list"></i>
+  <!-- ==================== APP SHELL ==================== -->
+  <div id="app-shell">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <i class="bi bi-speedometer2"></i>
+        <span>Motor Industry</span>
+      </div>
+      <nav class="mt-3">
+        <a href="#" class="nav-link active" data-section="dashboard">
+          <i class="bi bi-grid-1x2"></i> Dashboard
+        </a>
+        <a href="#" class="nav-link" data-section="vehicles">
+          <i class="bi bi-car-front"></i> Vehicles
+        </a>
+        <a href="#" class="nav-link" data-section="customers">
+          <i class="bi bi-people"></i> Customers
+        </a>
+        <a href="#" class="nav-link" data-section="services">
+          <i class="bi bi-wrench-adjustable"></i> Services
+        </a>
+        <a href="#" class="nav-link" data-section="parts">
+          <i class="bi bi-box-seam"></i> Parts
+        </a>
+      </nav>
+      <div class="position-absolute bottom-0 start-0 end-0 p-3">
+        <div class="text-white-50 small mb-2" id="current-user">User</div>
+        <button class="btn btn-outline-light btn-sm w-100" id="btn-logout">
+          <i class="bi bi-box-arrow-left"></i> Logout
         </button>
-        <h5 class="mb-0" id="page-title">Dashboard</h5>
       </div>
-      <div class="text-muted small">
-        <i class="bi bi-calendar3"></i>
-        <span id="current-date"></span>
-      </div>
-    </div>
+    </aside>
 
-    <!-- ==================== DASHBOARD ==================== -->
-    <section id="section-dashboard" class="section active">
-      <div class="row g-3 mb-4">
-        <div class="col-sm-6 col-xl-3">
-          <div class="stat-card">
-            <div class="d-flex justify-content-between">
-              <div>
-                <div class="stat-label">Vehicles In Stock</div>
-                <div class="stat-value" id="stat-vehicles">0</div>
-              </div>
-              <div class="icon bg-primary"><i class="bi bi-car-front"></i></div>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-6 col-xl-3">
-          <div class="stat-card">
-            <div class="d-flex justify-content-between">
-              <div>
-                <div class="stat-label">Active Customers</div>
-                <div class="stat-value" id="stat-customers">0</div>
-              </div>
-              <div class="icon bg-success"><i class="bi bi-people"></i></div>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-6 col-xl-3">
-          <div class="stat-card">
-            <div class="d-flex justify-content-between">
-              <div>
-                <div class="stat-label">Upcoming Services</div>
-                <div class="stat-value" id="stat-services">0</div>
-              </div>
-              <div class="icon bg-info"><i class="bi bi-wrench"></i></div>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-6 col-xl-3">
-          <div class="stat-card">
-            <div class="d-flex justify-content-between">
-              <div>
-                <div class="stat-label">Reserved Vehicles</div>
-                <div class="stat-value" id="stat-reserved">0</div>
-              </div>
-              <div class="icon bg-warning"><i class="bi bi-bookmark-check"></i></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row g-3">
-        <div class="col-lg-7">
-          <div class="content-card">
-            <div class="card-header">Recent Vehicles</div>
-            <div class="card-body p-0">
-              <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                  <thead>
-                    <tr>
-                      <th>Vehicle</th>
-                      <th>Year</th>
-                      <th>Price</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody id="dashboard-vehicles-body"></tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-5">
-          <div class="content-card">
-            <div class="card-header">Upcoming Services</div>
-            <div class="card-body p-0">
-              <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                  <thead>
-                    <tr>
-                      <th>Vehicle</th>
-                      <th>Customer</th>
-                      <th>Date</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody id="dashboard-services-body"></tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ==================== VEHICLES ==================== -->
-    <section id="section-vehicles" class="section">
-      <div class="content-card">
-        <div class="card-header">
-          <span>Vehicle Inventory</span>
-          <button class="btn btn-primary btn-sm" id="btn-add-vehicle">
-            <i class="bi bi-plus-lg"></i> Add Vehicle
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top bar -->
+      <div class="topbar">
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-outline-secondary d-lg-none" id="menu-toggle">
+            <i class="bi bi-list"></i>
           </button>
+          <h5 class="mb-0" id="page-title">Dashboard</h5>
         </div>
-        <div class="card-body p-0">
-          <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-              <thead>
-                <tr>
-                  <th>Vehicle</th>
-                  <th>Year</th>
-                  <th>Color</th>
-                  <th>Mileage</th>
-                  <th>Price</th>
-                  <th>Status</th>
-                  <th>VIN</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="vehicles-table-body"></tbody>
-            </table>
-          </div>
+        <div class="text-muted small">
+          <i class="bi bi-calendar3"></i>
+          <span id="current-date"></span>
         </div>
       </div>
-    </section>
 
-    <!-- ==================== CUSTOMERS ==================== -->
-    <section id="section-customers" class="section">
-      <div class="content-card">
-        <div class="card-header">
-          <span>Customers & Leads</span>
-          <button class="btn btn-primary btn-sm" id="btn-add-customer">
-            <i class="bi bi-plus-lg"></i> Add Customer
-          </button>
-        </div>
-        <div class="card-body p-0">
-          <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Phone</th>
-                  <th>Type</th>
-                  <th>Status</th>
-                  <th>Notes</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="customers-table-body"></tbody>
-            </table>
+      <!-- ==================== DASHBOARD ==================== -->
+      <section id="section-dashboard" class="section active">
+        <div class="row g-3 mb-4">
+          <div class="col-sm-6 col-xl-3">
+            <div class="stat-card">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <div class="stat-label">Vehicles In Stock</div>
+                  <div class="stat-value" id="stat-vehicles">0</div>
+                </div>
+                <div class="icon bg-primary"><i class="bi bi-car-front"></i></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-xl-3">
+            <div class="stat-card">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <div class="stat-label">Active Customers</div>
+                  <div class="stat-value" id="stat-customers">0</div>
+                </div>
+                <div class="icon bg-success"><i class="bi bi-people"></i></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-xl-3">
+            <div class="stat-card">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <div class="stat-label">Upcoming Services</div>
+                  <div class="stat-value" id="stat-services">0</div>
+                </div>
+                <div class="icon bg-info"><i class="bi bi-wrench"></i></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-xl-3">
+            <div class="stat-card">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <div class="stat-label">Reserved Vehicles</div>
+                  <div class="stat-value" id="stat-reserved">0</div>
+                </div>
+                <div class="icon bg-warning"><i class="bi bi-bookmark-check"></i></div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- ==================== SERVICES ==================== -->
-    <section id="section-services" class="section">
-      <div class="content-card">
-        <div class="card-header">
-          <span>Service Bookings</span>
-          <button class="btn btn-primary btn-sm" id="btn-add-service">
-            <i class="bi bi-plus-lg"></i> New Booking
-          </button>
-        </div>
-        <div class="card-body p-0">
-          <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-              <thead>
-                <tr>
-                  <th>Vehicle</th>
-                  <th>Customer</th>
-                  <th>Date</th>
-                  <th>Type</th>
-                  <th>Status</th>
-                  <th>Technician</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="services-table-body"></tbody>
-            </table>
+        <div class="row g-3">
+          <div class="col-lg-7">
+            <div class="content-card">
+              <div class="card-header">Recent Vehicles</div>
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                  <table class="table table-hover align-middle mb-0">
+                    <thead>
+                      <tr>
+                        <th>Vehicle</th>
+                        <th>Year</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="dashboard-vehicles-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="content-card">
+              <div class="card-header">Upcoming Services</div>
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                  <table class="table table-hover align-middle mb-0">
+                    <thead>
+                      <tr>
+                        <th>Vehicle</th>
+                        <th>Customer</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="dashboard-services-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
-  </main>
+      </section>
+
+      <!-- ==================== VEHICLES ==================== -->
+      <section id="section-vehicles" class="section">
+        <div class="content-card">
+          <div class="card-header">
+            <span>Vehicle Inventory</span>
+            <button class="btn btn-primary btn-sm" id="btn-add-vehicle">
+              <i class="bi bi-plus-lg"></i> Add Vehicle
+            </button>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead>
+                  <tr>
+                    <th>Vehicle</th>
+                    <th>Year</th>
+                    <th>Color</th>
+                    <th>Mileage</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th>VIN</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="vehicles-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== CUSTOMERS ==================== -->
+      <section id="section-customers" class="section">
+        <div class="content-card">
+          <div class="card-header">
+            <span>Customers & Leads</span>
+            <button class="btn btn-primary btn-sm" id="btn-add-customer">
+              <i class="bi bi-plus-lg"></i> Add Customer
+            </button>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Notes</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="customers-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== SERVICES ==================== -->
+      <section id="section-services" class="section">
+        <div class="content-card">
+          <div class="card-header">
+            <span>Service Bookings</span>
+            <button class="btn btn-primary btn-sm" id="btn-add-service">
+              <i class="bi bi-plus-lg"></i> New Booking
+            </button>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead>
+                  <tr>
+                    <th>Vehicle</th>
+                    <th>Customer</th>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Technician</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="services-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== PARTS ==================== -->
+      <section id="section-parts" class="section">
+        <div class="content-card">
+          <div class="card-header">
+            <span>Parts Inventory</span>
+            <button class="btn btn-primary btn-sm" id="btn-add-part">
+              <i class="bi bi-plus-lg"></i> Add Part
+            </button>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead>
+                  <tr>
+                    <th>Part No.</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Qty</th>
+                    <th>Min Stock</th>
+                    <th>Price</th>
+                    <th>Supplier</th>
+                    <th>Location</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="parts-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
 
   <!-- ==================== MODALS ==================== -->
 
@@ -426,15 +497,72 @@
     </div>
   </div>
 
+  <!-- Part Modal -->
+  <div class="modal fade" id="partModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form id="part-form">
+          <div class="modal-header">
+            <h5 class="modal-title" id="partModalLabel">Add New Part</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Part Number *</label>
+                <input type="text" class="form-control" id="p-partNumber" required placeholder="e.g. BRK-PAD-001">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Part Name *</label>
+                <input type="text" class="form-control" id="p-name" required placeholder="e.g. Front Brake Pads">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Category *</label>
+                <select class="form-select" id="p-category" required>
+                  <option value="Brakes">Brakes</option>
+                  <option value="Lubricants">Lubricants</option>
+                  <option value="Filters">Filters</option>
+                  <option value="Ignition">Ignition</option>
+                  <option value="Electrical">Electrical</option>
+                  <option value="Tyres">Tyres</option>
+                  <option value="Accessories">Accessories</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Quantity *</label>
+                <input type="number" class="form-control" id="p-quantity" required min="0" value="0">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Min Stock Level *</label>
+                <input type="number" class="form-control" id="p-minStock" required min="0" value="5">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Unit Price (ZAR) *</label>
+                <input type="number" class="form-control" id="p-price" required min="0" step="0.01">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Supplier</label>
+                <input type="text" class="form-control" id="p-supplier" placeholder="e.g. AutoParts SA">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Location / Bin</label>
+                <input type="text" class="form-control" id="p-location" placeholder="e.g. Aisle A-12">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Part</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- App -->
+  <!-- App (ES modules) -->
   <script type="module" src="js/app.js"></script>
-  <script>
-    // Set current date in topbar
-    document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-ZA', {
-      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-    });
-  </script>
 </body>
 </html>
