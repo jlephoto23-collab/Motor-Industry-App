@@ -1,19 +1,32 @@
 /* Motor Industry App - Custom Styles */
 :root {
-  --primary: #c41e3a;          /* Racing red */
+  --primary: #c41e3a;
   --primary-dark: #9a1830;
-  --secondary: #1a1a2e;        /* Deep navy/black */
+  --secondary: #1a1a2e;
   --accent: #16213e;
   --light: #f8f9fa;
   --success: #198754;
   --warning: #ffc107;
   --info: #0dcaf0;
   --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --bg-body: #f0f2f5;
+  --bg-card: #ffffff;
+  --text-main: #212529;
+  --text-muted: #6c757d;
+}
+
+body.dark-mode {
+  --bg-body: #121212;
+  --bg-card: #1e1e1e;
+  --text-main: #e0e0e0;
+  --text-muted: #aaaaaa;
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 body {
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  background-color: #f0f2f5;
+  background-color: var(--bg-body);
+  color: var(--text-main);
   min-height: 100vh;
 }
 
@@ -139,7 +152,7 @@ body {
 
 /* Top bar */
 .topbar {
-  background: white;
+  background: var(--bg-card);
   border-radius: 12px;
   padding: 1rem 1.5rem;
   margin-bottom: 1.5rem;
@@ -150,11 +163,14 @@ body {
 }
 
 /* Cards */
-.stat-card {
-  background: white;
+.stat-card, .content-card, .settings-card {
+  background: var(--bg-card);
   border-radius: 12px;
-  padding: 1.5rem;
   box-shadow: var(--card-shadow);
+}
+
+.stat-card {
+  padding: 1.5rem;
   height: 100%;
   transition: transform 0.2s;
 }
@@ -186,26 +202,26 @@ body {
 }
 
 .stat-label {
-  color: #6c757d;
+  color: var(--text-muted);
   font-size: 0.9rem;
 }
 
-/* Content cards */
 .content-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: var(--card-shadow);
   overflow: hidden;
 }
 
 .content-card .card-header {
-  background: white;
-  border-bottom: 1px solid #eee;
+  background: var(--bg-card);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
   padding: 1rem 1.5rem;
   font-weight: 600;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+body.dark-mode .content-card .card-header {
+  border-bottom-color: rgba(255,255,255,0.1);
 }
 
 .content-card .card-body {
@@ -215,16 +231,21 @@ body {
 /* Tables */
 .table {
   margin-bottom: 0;
+  color: var(--text-main);
 }
 
 .table thead th {
-  background: #f8f9fa;
+  background: var(--bg-body);
   font-weight: 600;
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  color: #555;
-  border-bottom: 2px solid #dee2e6;
+  color: var(--text-muted);
+  border-bottom: 2px solid rgba(0,0,0,0.08);
+}
+
+body.dark-mode .table thead th {
+  border-bottom-color: rgba(255,255,255,0.1);
 }
 
 .badge-status {
@@ -248,6 +269,18 @@ body {
   border-color: var(--primary-dark);
 }
 
+/* Settings */
+.settings-card {
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.settings-card h6 {
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text-main);
+}
+
 /* Mobile */
 @media (max-width: 991.98px) {
   .sidebar {
@@ -268,10 +301,11 @@ body {
 .section.active {
   display: block;
 }
+
 .empty-state {
   text-align: center;
   padding: 3rem 1rem;
-  color: #6c757d;
+  color: var(--text-muted);
 }
 
 .empty-state i {
