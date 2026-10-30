@@ -1,0 +1,33 @@
+{
+  "name": "motor-industry-app",
+  "version": "1.0.0",
+  "description": "Motor Industry Dealer Management System",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "build": "echo 'Static site - no build step needed'",
+    "cap:init": "npx cap init 'Motor Industry App' com.motorindustry.app --web-dir .",
+    "cap:add:android": "npx cap add android",
+    "cap:sync": "npx cap sync",
+    "cap:open:android": "npx cap open android",
+    "cap:build:android": "npx cap sync && cd android && ./gradlew assembleDebug"
+  },
+  "keywords": [
+    "motor",
+    "automotive",
+    "dms",
+    "dealer",
+    "capacitor",
+    "pwa"
+  ],
+  "author": "jlephoto23-collab",
+  "license": "MIT",
+  "devDependencies": {
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/cli": "^6.0.0",
+    "@capacitor/core": "^6.0.0"
+  },
+  "dependencies": {
+    "@capacitor/core": "^6.0.0"
+  }
+}
