@@ -1,4 +1,4 @@
-// app.js - Main application entry point with hash routing + swipe gestures
+// app.js - Main application with hash routing, swipe gestures + slide animation
 import { isAuthenticated, getSession, login, logout } from './data.js';
 import { renderDashboard } from './dashboard.js';
 import { renderVehicles, openVehicleModal, saveVehicle } from './vehicles.js';
@@ -9,6 +9,7 @@ import { renderSettings, initSettings } from './settings.js';
 import { renderDiagnostics, initDiagnostics } from './diagnostics.js';
 
 let currentSection = 'dashboard';
+let isAnimating = false;
 
 // Order used for swipe navigation (matches bottom nav)
 const SWIPE_SECTIONS = ['dashboard', 'vehicles', 'diagnostics', 'services', 'settings'];
@@ -71,23 +72,27 @@ function handleSearch() {
   }
 }
 
-function showSection(sectionId, updateHash = true) {
+function showSection(sectionId, updateHash = true, direction = null) {
   if (!VALID_SECTIONS.includes(sectionId)) sectionId = 'dashboard';
+  if (sectionId === currentSection && !direction) return;
+  if (isAnimating) return;
+
+  const prevSectionId = currentSection;
   currentSection = sectionId;
 
   if (updateHash && window.location.hash !== '#' + sectionId) {
     window.location.hash = sectionId;
   }
 
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  const prevEl = document.getElementById(`section-${prevSectionId}`);
+  const nextEl = document.getElementById(`section-${sectionId}`);
+
+  // Update nav active states
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
   document.querySelectorAll('.bottom-nav-item').forEach(l => l.classList.remove('active'));
 
-  const section = document.getElementById(`section-${sectionId}`);
   const link = document.querySelector(`.nav-link[data-section="${sectionId}"]`);
   const bottomLink = document.querySelector(`.bottom-nav-item[data-section="${sectionId}"]`);
-
-  if (section) section.classList.add('active');
   if (link) link.classList.add('active');
   if (bottomLink) bottomLink.classList.add('active');
 
@@ -109,6 +114,32 @@ function showSection(sectionId, updateHash = true) {
   const searchContainer = document.getElementById('search-container');
   if (searchContainer) {
     searchContainer.style.display = (['dashboard', 'settings', 'diagnostics'].includes(sectionId)) ? 'none' : 'flex';
+  }
+
+  // Slide animation when swiping
+  if (direction && prevEl && nextEl && prevSectionId !== sectionId) {
+    isAnimating = true;
+
+    // Prepare next section
+    nextEl.classList.add('active');
+    nextEl.classList.add(direction === 'left' ? 'slide-in-from-right' : 'slide-in-from-left');
+    prevEl.classList.add(direction === 'left' ? 'slide-out-to-left' : 'slide-out-to-right');
+
+    const cleanup = () => {
+      prevEl.classList.remove('active', 'slide-out-to-left', 'slide-out-to-right');
+      nextEl.classList.remove('slide-in-from-right', 'slide-in-from-left');
+      isAnimating = false;
+    };
+
+    nextEl.addEventListener('animationend', cleanup, { once: true });
+    // Fallback in case animationend doesn't fire
+    setTimeout(cleanup, 320);
+  } else {
+    // Instant switch (menu click / hash change)
+    document.querySelectorAll('.section').forEach(s => {
+      s.classList.remove('active', 'slide-in-from-right', 'slide-in-from-left', 'slide-out-to-left', 'slide-out-to-right');
+    });
+    if (nextEl) nextEl.classList.add('active');
   }
 
   switch (sectionId) {
@@ -147,6 +178,8 @@ function initSwipeGestures() {
   }, { passive: true });
 
   function handleSwipe() {
+    if (isAnimating) return;
+
     const deltaX = touchEndX - touchStartX;
     const deltaY = touchEndY - touchStartY;
 
@@ -154,18 +187,17 @@ function initSwipeGestures() {
     if (Math.abs(deltaY) > Math.abs(deltaX)) return;
     if (Math.abs(deltaX) < minSwipeDistance) return;
 
-    // Only swipe between the sections shown in the bottom nav
     let index = SWIPE_SECTIONS.indexOf(currentSection);
     if (index === -1) index = 0;
 
     if (deltaX < 0) {
       // Swipe left → next section
       const next = Math.min(index + 1, SWIPE_SECTIONS.length - 1);
-      if (next !== index) showSection(SWIPE_SECTIONS[next]);
+      if (next !== index) showSection(SWIPE_SECTIONS[next], true, 'left');
     } else {
       // Swipe right → previous section
       const prev = Math.max(index - 1, 0);
-      if (prev !== index) showSection(SWIPE_SECTIONS[prev]);
+      if (prev !== index) showSection(SWIPE_SECTIONS[prev], true, 'right');
     }
   }
 }
