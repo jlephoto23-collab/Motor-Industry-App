@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Customers - Motor Industry App</title>
+  <meta name="theme-color" content="#0f172a">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div id="splash-screen"><div class="splash-icon"><i class="bi bi-speedometer2"></i></div><div class="splash-title">Motor Industry</div><div class="splash-loader"></div></div>
+  <div id="app-shell" style="display:block">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand"><i class="bi bi-speedometer2"></i><span>Motor Industry</span></div>
+      <nav class="mt-3">
+        <a href="dashboard.html" class="nav-link" data-page="dashboard"><i class="bi bi-grid-1x2"></i> Dashboard</a>
+        <a href="vehicles.html" class="nav-link" data-page="vehicles"><i class="bi bi-car-front"></i> Vehicles</a>
+        <a href="customers.html" class="nav-link active" data-page="customers"><i class="bi bi-people"></i> Customers</a>
+        <a href="services.html" class="nav-link" data-page="services"><i class="bi bi-wrench-adjustable"></i> Services</a>
+        <a href="parts.html" class="nav-link" data-page="parts"><i class="bi bi-box-seam"></i> Parts</a>
+        <a href="diagnostics.html" class="nav-link" data-page="diagnostics"><i class="bi bi-clipboard2-pulse"></i> Diagnostics</a>
+        <a href="settings.html" class="nav-link" data-page="settings"><i class="bi bi-gear"></i> Settings</a>
+      </nav>
+      <div class="position-absolute bottom-0 start-0 end-0 p-3">
+        <div class="text-white-50 small mb-2" id="current-user">User</div>
+        <button class="btn btn-outline-light btn-sm w-100" id="btn-logout"><i class="bi bi-box-arrow-left"></i> Logout</button>
+      </div>
+    </aside>
+    <main class="main-content">
+      <div class="topbar">
+        <div class="d-flex align-items-center gap-3 flex-grow-1">
+          <button class="btn btn-outline-secondary d-lg-none btn-sm" id="menu-toggle"><i class="bi bi-list"></i></button>
+          <h5 class="mb-0">Customers</h5>
+          <div class="ms-2" style="max-width:220px;width:100%">
+            <div class="input-group input-group-sm">
+              <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+              <input type="search" class="form-control border-start-0" id="global-search" placeholder="Search..." autocomplete="off">
+            </div>
+          </div>
+        </div>
+        <div class="text-muted small d-none d-md-block" id="current-date"></div>
+      </div>
+      <div class="content-card">
+        <div class="card-header"><span>Customers & Leads</span><button class="btn btn-primary btn-sm" id="btn-add-customer"><i class="bi bi-plus-lg"></i> Add</button></div>
+        <div class="card-body p-0"><div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Type</th><th>Status</th><th>Notes</th><th></th></tr></thead><tbody id="customers-table-body"></tbody></table></div></div>
+      </div>
+    </main>
+    <nav class="bottom-nav">
+      <a href="dashboard.html" class="bottom-nav-item" data-page="dashboard"><i class="bi bi-grid-1x2"></i><span>Home</span></a>
+      <a href="vehicles.html" class="bottom-nav-item" data-page="vehicles"><i class="bi bi-car-front"></i><span>Vehicles</span></a>
+      <a href="diagnostics.html" class="bottom-nav-item" data-page="diagnostics"><i class="bi bi-clipboard2-pulse"></i><span>Diagnose</span></a>
+      <a href="services.html" class="bottom-nav-item" data-page="services"><i class="bi bi-wrench-adjustable"></i><span>Services</span></a>
+      <a href="settings.html" class="bottom-nav-item" data-page="settings"><i class="bi bi-gear"></i><span>Settings</span></a>
+    </nav>
+  </div>
+
+  <div class="modal fade" id="customerModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><form id="customer-form"><div class="modal-header"><h5 class="modal-title" id="customerModalLabel">Add Customer</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="mb-3"><label class="form-label">Name *</label><input type="text" class="form-control" id="c-name" required></div><div class="mb-3"><label class="form-label">Email *</label><input type="email" class="form-control" id="c-email" required></div><div class="mb-3"><label class="form-label">Phone *</label><input type="tel" class="form-control" id="c-phone" required></div><div class="row g-3 mb-3"><div class="col-6"><label class="form-label">Type</label><select class="form-select" id="c-type"><option>Customer</option><option>Lead</option></select></div><div class="col-6"><label class="form-label">Status</label><select class="form-select" id="c-status"><option>Active</option><option>New</option><option>Contacted</option><option>Inactive</option></select></div></div><div class="mb-3"><label class="form-label">Notes</label><textarea class="form-control" id="c-notes" rows="2"></textarea></div></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button><button type="submit" class="btn btn-primary">Save</button></div></form></div></div></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module">
+    import { initShell } from './js/shell.js';
+    import { renderCustomers, openCustomerModal, saveCustomer } from './js/customers.js';
+    if (initShell('customers')) {
+      renderCustomers();
+      document.getElementById('btn-add-customer')?.addEventListener('click', () => openCustomerModal());
+      document.getElementById('customer-form')?.addEventListener('submit', saveCustomer);
+      document.getElementById('global-search')?.addEventListener('input', (e) => renderCustomers(e.target.value));
+    }
+  </script>
+</body>
+</html>
