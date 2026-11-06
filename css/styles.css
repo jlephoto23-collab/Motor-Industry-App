@@ -329,7 +329,6 @@ body {
   background: rgba(255, 255, 255, 0.07);
 }
 
-/* Active link indicator - Sidebar */
 .nav-link.active {
   color: white;
   background: rgba(37, 99, 235, 0.2);
@@ -371,6 +370,8 @@ body {
   padding: 1.25rem 1.25rem calc(1.25rem + var(--bottom-nav-height) + var(--safe-bottom));
   min-height: 100vh;
   min-height: 100dvh;
+  position: relative;
+  overflow-x: hidden;
 }
 
 .topbar {
@@ -578,7 +579,6 @@ body.dark-mode .bottom-nav {
   transition: transform 0.25s cubic-bezier(0.34, 1.4, 0.64, 1), color 0.25s ease;
 }
 
-/* Active link indicator - Bottom nav with smooth animation */
 .bottom-nav-item.active {
   color: #2563eb;
   font-weight: 600;
@@ -620,6 +620,56 @@ body.dark-mode .bottom-nav {
   opacity: 0.7;
 }
 
+/* ---------- Section + Swipe Animations ---------- */
+.section {
+  display: none;
+}
+
+.section.active {
+  display: block;
+}
+
+/* Slide animations for swipe */
+.section.slide-in-from-right {
+  display: block;
+  animation: slideInFromRight 0.28s ease forwards;
+}
+
+.section.slide-in-from-left {
+  display: block;
+  animation: slideInFromLeft 0.28s ease forwards;
+}
+
+.section.slide-out-to-left {
+  display: block;
+  animation: slideOutToLeft 0.28s ease forwards;
+}
+
+.section.slide-out-to-right {
+  display: block;
+  animation: slideOutToRight 0.28s ease forwards;
+}
+
+@keyframes slideInFromRight {
+  from { transform: translateX(100%); opacity: 0.6; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInFromLeft {
+  from { transform: translateX(-100%); opacity: 0.6; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideOutToLeft {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(-30%); opacity: 0; }
+}
+
+@keyframes slideOutToRight {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(30%); opacity: 0; }
+}
+
 @media (max-width: 991.98px) {
   .sidebar {
     transform: translateX(-100%);
@@ -651,19 +701,6 @@ body.dark-mode .bottom-nav {
   .sidebar .position-absolute {
     display: none;
   }
-}
-
-.section {
-  display: none;
-  animation: fadeIn 0.25s ease;
-}
-.section.active {
-  display: block;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 
 #app-shell {
