@@ -1,9 +1,9 @@
-/* Motor Industry App - Native App-like Styles */
+/* Motor Industry App - Clean EduFlow-inspired mobile style */
 :root {
-  --primary: #c41e3a;
-  --primary-dark: #9a1830;
-  --secondary: #1a1a2e;
-  --accent: #16213e;
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --secondary: #0f172a;
+  --accent: #1e293b;
   --success: #198754;
   --warning: #ffc107;
   --info: #0dcaf0;
@@ -39,17 +39,17 @@ body {
   overflow-x: hidden;
 }
 
-/* ---------- Splash Screen ---------- */
+/* ---------- Splash Screen (EduFlow style) ---------- */
 #splash-screen {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: linear-gradient(165deg, #0f0c29 0%, #1a1a2e 40%, #24243e 70%, #0f3460 100%);
+  background: #0f172a;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.5s ease, visibility 0.5s ease;
+  transition: opacity 0.45s ease, visibility 0.45s ease;
 }
 
 #splash-screen.hide {
@@ -59,48 +59,48 @@ body {
 }
 
 .splash-icon {
-  width: 96px;
-  height: 96px;
-  background: linear-gradient(135deg, var(--primary), #e63950);
-  border-radius: 28px;
+  width: 88px;
+  height: 88px;
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  border-radius: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 16px 40px rgba(196, 30, 58, 0.4);
-  animation: splashPop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  box-shadow: 0 12px 32px rgba(37, 99, 235, 0.35);
+  animation: splashPop 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 .splash-icon i {
-  font-size: 3rem;
+  font-size: 2.6rem;
   color: white;
 }
 
 .splash-title {
   color: white;
-  font-size: 1.6rem;
-  font-weight: 800;
-  margin-top: 1.5rem;
-  letter-spacing: -0.3px;
+  font-size: 1.85rem;
+  font-weight: 700;
+  margin-top: 1.75rem;
+  letter-spacing: -0.4px;
   opacity: 0;
-  animation: splashFadeUp 0.5s ease 0.3s forwards;
+  animation: splashFadeUp 0.5s ease 0.25s forwards;
 }
 
 .splash-subtitle {
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.55);
   font-size: 0.95rem;
-  margin-top: 0.4rem;
+  margin-top: 0.45rem;
   opacity: 0;
-  animation: splashFadeUp 0.5s ease 0.45s forwards;
+  animation: splashFadeUp 0.5s ease 0.4s forwards;
 }
 
 .splash-loader {
-  margin-top: 2.5rem;
-  width: 40px;
-  height: 40px;
-  border: 3px solid rgba(255, 255, 255, 0.15);
-  border-top-color: var(--primary);
+  margin-top: 2.75rem;
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(255, 255, 255, 0.12);
+  border-top-color: #2563eb;
   border-radius: 50%;
-  animation: spin 0.8s linear infinite, splashFadeUp 0.4s ease 0.6s forwards;
+  animation: spin 0.8s linear infinite, splashFadeUp 0.4s ease 0.55s forwards;
   opacity: 0;
 }
 
@@ -110,7 +110,7 @@ body {
 }
 
 @keyframes splashFadeUp {
-  0% { transform: translateY(12px); opacity: 0; }
+  0% { transform: translateY(14px); opacity: 0; }
   100% { transform: translateY(0); opacity: 1; }
 }
 
@@ -123,7 +123,7 @@ body {
   position: fixed;
   inset: 0;
   z-index: 9000;
-  background: rgba(15, 12, 41, 0.75);
+  background: rgba(15, 23, 42, 0.82);
   backdrop-filter: blur(6px);
   display: flex;
   flex-direction: column;
@@ -140,10 +140,10 @@ body {
 }
 
 .loading-spinner {
-  width: 52px;
-  height: 52px;
-  border: 4px solid rgba(255, 255, 255, 0.15);
-  border-top-color: var(--primary);
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(255, 255, 255, 0.12);
+  border-top-color: #2563eb;
   border-radius: 50%;
   animation: spin 0.75s linear infinite;
 }
@@ -152,174 +152,125 @@ body {
   color: white;
   font-size: 1rem;
   font-weight: 600;
-  margin-top: 1.25rem;
-  letter-spacing: 0.3px;
+  margin-top: 1.2rem;
 }
 
-/* ---------- Login Screen ---------- */
+/* ---------- Login Screen (EduFlow style) ---------- */
 #login-screen {
   display: none;
   min-height: 100vh;
   min-height: 100dvh;
-  background: linear-gradient(165deg, #0f0c29 0%, #1a1a2e 40%, #24243e 70%, #0f3460 100%);
+  background: #0f172a;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
+  padding: 1.75rem;
   position: relative;
-  overflow: hidden;
-}
-
-#login-screen::before {
-  content: '';
-  position: absolute;
-  width: 320px;
-  height: 320px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(196, 30, 58, 0.25) 0%, transparent 70%);
-  top: -80px;
-  right: -80px;
-}
-
-#login-screen::after {
-  content: '';
-  position: absolute;
-  width: 250px;
-  height: 250px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(15, 52, 96, 0.4) 0%, transparent 70%);
-  bottom: -60px;
-  left: -60px;
 }
 
 .login-card {
-  background: rgba(255, 255, 255, 0.97);
-  border-radius: 28px;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
   width: 100%;
-  max-width: 380px;
-  overflow: hidden;
-  position: relative;
-  z-index: 2;
-  backdrop-filter: blur(10px);
-}
-
-body.dark-mode .login-card {
-  background: rgba(28, 28, 30, 0.95);
-}
-
-.login-header {
-  background: transparent;
-  color: var(--secondary);
-  padding: 2.75rem 1.75rem 1.25rem;
+  max-width: 360px;
   text-align: center;
 }
 
-body.dark-mode .login-header {
-  color: #f5f5f5;
+.login-header {
+  margin-bottom: 2.5rem;
 }
 
 .login-header .login-icon {
   width: 72px;
   height: 72px;
-  background: linear-gradient(135deg, var(--primary), #e63950);
-  border-radius: 22px;
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 1.25rem;
-  box-shadow: 0 12px 24px rgba(196, 30, 58, 0.35);
+  margin: 0 auto 1.4rem;
+  box-shadow: 0 10px 28px rgba(37, 99, 235, 0.35);
 }
 
 .login-header .login-icon i {
-  font-size: 2.2rem;
+  font-size: 2rem;
   color: white;
-  margin: 0;
 }
 
 .login-header h1 {
-  font-size: 1.55rem;
-  font-weight: 800;
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: white;
   margin: 0;
-  letter-spacing: -0.3px;
+  letter-spacing: -0.4px;
 }
 
 .login-header p {
-  margin: 0.4rem 0 0;
-  opacity: 0.65;
+  margin: 0.45rem 0 0;
+  color: rgba(255, 255, 255, 0.5);
   font-size: 0.95rem;
-  font-weight: 500;
 }
 
 .login-body {
-  padding: 0.5rem 1.75rem 2rem;
+  text-align: left;
+}
+
+.login-body .form-label {
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 0.4rem;
 }
 
 .login-body .form-control {
   border-radius: 14px;
-  padding: 0.85rem 1rem;
-  border: 1.5px solid rgba(0, 0, 0, 0.08);
-  background: #f8f9fa;
+  padding: 0.9rem 1rem;
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  background: #1e293b;
+  color: white;
   font-size: 1rem;
 }
 
-body.dark-mode .login-body .form-control {
-  background: #2c2c2e;
-  border-color: rgba(255, 255, 255, 0.1);
-  color: #f5f5f5;
+.login-body .form-control::placeholder {
+  color: rgba(255, 255, 255, 0.35);
 }
 
 .login-body .form-control:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.15);
-  background: white;
-}
-
-body.dark-mode .login-body .form-control:focus {
-  background: #2c2c2e;
-}
-
-.login-body .form-label {
-  font-weight: 600;
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  margin-bottom: 0.4rem;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+  background: #1e293b;
+  color: white;
 }
 
 .login-body .btn-primary {
   border-radius: 14px;
-  padding: 0.9rem;
+  padding: 0.95rem;
   font-size: 1.05rem;
-  font-weight: 700;
-  margin-top: 0.5rem;
-  box-shadow: 0 8px 20px rgba(196, 30, 58, 0.3);
+  font-weight: 600;
+  margin-top: 0.75rem;
+  background: #2563eb;
   border: none;
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
 }
 
+.login-body .btn-primary:hover,
 .login-body .btn-primary:active {
-  transform: scale(0.98);
+  background: #1d4ed8;
 }
 
 .login-demo {
-  background: linear-gradient(135deg, #f8f9fa, #f0f2f5);
+  background: #1e293b;
   border-radius: 14px;
   padding: 1rem 1.1rem;
   font-size: 0.82rem;
-  color: var(--text-muted);
-  margin-top: 1.5rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 1.75rem;
   text-align: center;
-  border: 1px solid rgba(0, 0, 0, 0.04);
-}
-
-body.dark-mode .login-demo {
-  background: #2c2c2e;
-  border-color: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .login-demo strong {
   display: block;
   margin-bottom: 0.35rem;
-  color: var(--text-main);
-  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -328,7 +279,7 @@ body.dark-mode .login-demo {
 .sidebar {
   width: 260px;
   min-height: 100vh;
-  background: linear-gradient(180deg, var(--secondary) 0%, var(--accent) 100%);
+  background: #0f172a;
   color: white;
   position: fixed;
   left: 0;
@@ -341,17 +292,17 @@ body.dark-mode .login-demo {
 
 .sidebar-brand {
   padding: 1.5rem 1.25rem;
-  font-size: 1.3rem;
+  font-size: 1.25rem;
   font-weight: 700;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
 .sidebar-brand i {
-  color: var(--primary);
-  font-size: 1.6rem;
+  color: #2563eb;
+  font-size: 1.5rem;
 }
 
 .sidebar nav {
@@ -360,7 +311,7 @@ body.dark-mode .login-demo {
 }
 
 .nav-link {
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.7);
   padding: 0.9rem 1.25rem;
   display: flex;
   align-items: center;
@@ -374,8 +325,8 @@ body.dark-mode .login-demo {
 .nav-link:hover,
 .nav-link.active {
   color: white;
-  background: rgba(255, 255, 255, 0.1);
-  border-left-color: var(--primary);
+  background: rgba(255, 255, 255, 0.07);
+  border-left-color: #2563eb;
 }
 
 .nav-link i {
@@ -438,7 +389,7 @@ body.dark-mode .login-demo {
   color: white;
 }
 
-.stat-card .icon.bg-primary { background: var(--primary); }
+.stat-card .icon.bg-primary { background: #2563eb; }
 .stat-card .icon.bg-success { background: var(--success); }
 .stat-card .icon.bg-warning { background: var(--warning); color: #333; }
 .stat-card .icon.bg-info { background: var(--info); }
@@ -529,13 +480,13 @@ body.dark-mode .form-select {
 }
 
 .btn-primary {
-  background-color: var(--primary);
-  border-color: var(--primary);
+  background-color: #2563eb;
+  border-color: #2563eb;
 }
 
 .btn-primary:hover, .btn-primary:active {
-  background-color: var(--primary-dark);
-  border-color: var(--primary-dark);
+  background-color: #1d4ed8;
+  border-color: #1d4ed8;
 }
 
 .btn-sm {
@@ -595,7 +546,7 @@ body.dark-mode .bottom-nav {
 }
 
 .bottom-nav-item.active {
-  color: var(--primary);
+  color: #2563eb;
 }
 
 .bottom-nav-item:active {
