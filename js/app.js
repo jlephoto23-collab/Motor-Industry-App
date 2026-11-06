@@ -1,4 +1,4 @@
-// app.js - Main application entry point with hash routing
+// app.js - Main application entry point with hash routing + swipe gestures
 import { isAuthenticated, getSession, login, logout } from './data.js';
 import { renderDashboard } from './dashboard.js';
 import { renderVehicles, openVehicleModal, saveVehicle } from './vehicles.js';
@@ -10,6 +10,8 @@ import { renderDiagnostics, initDiagnostics } from './diagnostics.js';
 
 let currentSection = 'dashboard';
 
+// Order used for swipe navigation (matches bottom nav)
+const SWIPE_SECTIONS = ['dashboard', 'vehicles', 'diagnostics', 'services', 'settings'];
 const VALID_SECTIONS = ['dashboard', 'vehicles', 'customers', 'services', 'parts', 'diagnostics', 'settings'];
 
 function showLogin() {
@@ -31,7 +33,6 @@ function showApp() {
     document.body.classList.add('dark-mode');
   }
 
-  // Load section from URL hash or default to dashboard
   const hash = window.location.hash.replace('#', '');
   const section = VALID_SECTIONS.includes(hash) ? hash : 'dashboard';
   showSection(section, false);
@@ -74,7 +75,6 @@ function showSection(sectionId, updateHash = true) {
   if (!VALID_SECTIONS.includes(sectionId)) sectionId = 'dashboard';
   currentSection = sectionId;
 
-  // Update URL hash so links are real
   if (updateHash && window.location.hash !== '#' + sectionId) {
     window.location.hash = sectionId;
   }
@@ -124,13 +124,57 @@ function showSection(sectionId, updateHash = true) {
   document.getElementById('sidebar')?.classList.remove('show');
 }
 
+// ---------- Swipe gesture support ----------
+function initSwipeGestures() {
+  const main = document.querySelector('.main-content');
+  if (!main) return;
+
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchEndX = 0;
+  let touchEndY = 0;
+  const minSwipeDistance = 60;
+
+  main.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+  }, { passive: true });
+
+  main.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    touchEndY = e.changedTouches[0].screenY;
+    handleSwipe();
+  }, { passive: true });
+
+  function handleSwipe() {
+    const deltaX = touchEndX - touchStartX;
+    const deltaY = touchEndY - touchStartY;
+
+    // Ignore mostly vertical swipes (scrolling)
+    if (Math.abs(deltaY) > Math.abs(deltaX)) return;
+    if (Math.abs(deltaX) < minSwipeDistance) return;
+
+    // Only swipe between the sections shown in the bottom nav
+    let index = SWIPE_SECTIONS.indexOf(currentSection);
+    if (index === -1) index = 0;
+
+    if (deltaX < 0) {
+      // Swipe left → next section
+      const next = Math.min(index + 1, SWIPE_SECTIONS.length - 1);
+      if (next !== index) showSection(SWIPE_SECTIONS[next]);
+    } else {
+      // Swipe right → previous section
+      const prev = Math.max(index - 1, 0);
+      if (prev !== index) showSection(SWIPE_SECTIONS[prev]);
+    }
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('login-form')?.addEventListener('submit', handleLogin);
   document.getElementById('btn-logout')?.addEventListener('click', handleLogout);
 
-  // Make all navigation links work
   document.querySelectorAll('[data-section]').forEach(link => {
-    // Set proper href so they are real links
     const section = link.dataset.section;
     if (section) link.setAttribute('href', '#' + section);
 
@@ -140,7 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Handle browser back / forward and direct hash links
   window.addEventListener('hashchange', () => {
     if (!isAuthenticated()) return;
     const hash = window.location.hash.replace('#', '');
@@ -166,6 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initSettings();
   initDiagnostics();
+  initSwipeGestures();
 
   if (isAuthenticated()) {
     showApp();
