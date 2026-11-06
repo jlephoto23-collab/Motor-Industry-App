@@ -1,4 +1,4 @@
-// app.js - Main application entry point
+// app.js - Main application entry point with hash routing
 import { isAuthenticated, getSession, login, logout } from './data.js';
 import { renderDashboard } from './dashboard.js';
 import { renderVehicles, openVehicleModal, saveVehicle } from './vehicles.js';
@@ -9,6 +9,8 @@ import { renderSettings, initSettings } from './settings.js';
 import { renderDiagnostics, initDiagnostics } from './diagnostics.js';
 
 let currentSection = 'dashboard';
+
+const VALID_SECTIONS = ['dashboard', 'vehicles', 'customers', 'services', 'parts', 'diagnostics', 'settings'];
 
 function showLogin() {
   document.getElementById('login-screen').style.display = 'flex';
@@ -29,7 +31,10 @@ function showApp() {
     document.body.classList.add('dark-mode');
   }
 
-  showSection('dashboard');
+  // Load section from URL hash or default to dashboard
+  const hash = window.location.hash.replace('#', '');
+  const section = VALID_SECTIONS.includes(hash) ? hash : 'dashboard';
+  showSection(section, false);
 }
 
 function handleLogin(e) {
@@ -50,6 +55,7 @@ function handleLogin(e) {
 
 function handleLogout() {
   logout();
+  window.location.hash = '';
   showLogin();
   document.getElementById('login-form').reset();
 }
@@ -64,8 +70,14 @@ function handleSearch() {
   }
 }
 
-function showSection(sectionId) {
+function showSection(sectionId, updateHash = true) {
+  if (!VALID_SECTIONS.includes(sectionId)) sectionId = 'dashboard';
   currentSection = sectionId;
+
+  // Update URL hash so links are real
+  if (updateHash && window.location.hash !== '#' + sectionId) {
+    window.location.hash = sectionId;
+  }
 
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
@@ -116,11 +128,24 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('login-form')?.addEventListener('submit', handleLogin);
   document.getElementById('btn-logout')?.addEventListener('click', handleLogout);
 
+  // Make all navigation links work
   document.querySelectorAll('[data-section]').forEach(link => {
+    // Set proper href so they are real links
+    const section = link.dataset.section;
+    if (section) link.setAttribute('href', '#' + section);
+
     link.addEventListener('click', (e) => {
       e.preventDefault();
       showSection(link.dataset.section);
     });
+  });
+
+  // Handle browser back / forward and direct hash links
+  window.addEventListener('hashchange', () => {
+    if (!isAuthenticated()) return;
+    const hash = window.location.hash.replace('#', '');
+    const section = VALID_SECTIONS.includes(hash) ? hash : 'dashboard';
+    showSection(section, false);
   });
 
   document.getElementById('menu-toggle')?.addEventListener('click', () => {
