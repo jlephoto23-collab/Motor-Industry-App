@@ -4,8 +4,8 @@
   "description": "Dealer Management System for the Motor Industry",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#1a1a2e",
-  "theme_color": "#c41e3a",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
   "orientation": "portrait-primary",
   "icons": [
     {
